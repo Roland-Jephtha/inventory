@@ -1,0 +1,501 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}POS-Lite{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <meta name="theme-color" content="#4318ff">
+    {% block extra_head %}{% endblock %}
+    
+    <style>
+        /* Store-specific enhancements */
+        .store-sidebar {
+            width: 280px;
+            background-color: var(--bg-card);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .store-sidebar .brand-section {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, var(--primary) 0%, #7551ff 100%);
+        }
+
+        .store-sidebar .brand-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .store-sidebar .brand-name {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .store-sidebar .brand-tagline {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+            margin: 0;
+        }
+
+        .store-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem 1rem;
+        }
+
+        .store-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .store-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .store-nav-link:hover {
+            background: var(--bg-body);
+            transform: translateX(4px);
+        }
+
+        .store-nav-link.active {
+            background: linear-gradient(135deg, rgba(67, 24, 255, 0.1) 0%, rgba(117, 81, 255, 0.1) 100%);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .store-nav-link i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .store-user-profile {
+            padding: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .store-user-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 12px;
+            background: var(--bg-body);
+            transition: all 0.2s;
+        }
+
+        .store-user-card:hover {
+            background: var(--bg-body);
+            box-shadow: var(--shadow);
+        }
+
+        .store-user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, #7551ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .store-user-info {
+            flex: 1;
+        }
+
+        .store-user-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        .store-user-role {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .store-logout-btn {
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .store-logout-btn:hover {
+            color: var(--danger);
+        }
+
+        .store-logout-btn i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Main content area */
+        .store-main-wrapper {
+            margin-left: 280px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top header */
+        .store-header {
+            position: sticky;
+            top: 0;
+            z-index: 90;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+        }
+
+        [data-theme="dark"] .store-header {
+            background: rgba(17, 28, 68, 0.9);
+        }
+
+        .store-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .store-search-wrapper {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .store-search-glass {
+            position: relative;
+            width: 100%;
+        }
+
+        .store-search-glass input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            color: var(--text-main);
+            font-family: inherit;
+            transition: all 0.3s ease;
+            margin: 0;
+        }
+
+        [data-theme="dark"] .store-search-glass input {
+            background: rgba(17, 28, 68, 0.6);
+        }
+
+        .store-search-glass input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(67, 24, 255, 0.1);
+            background: var(--bg-card);
+        }
+
+        .store-search-glass i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+
+        .store-search-glass input:focus + i {
+            color: var(--primary);
+        }
+
+        .store-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .store-notification-btn {
+            position: relative;
+            padding: 0.5rem;
+            border-radius: 10px;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .store-notification-btn:hover {
+            background: var(--bg-body);
+        }
+
+        .store-notification-btn i {
+            width: 22px;
+            height: 22px;
+        }
+
+        .store-notification-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--danger);
+        }
+
+        .store-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary) 0%, #7551ff 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(67, 24, 255, 0.3);
+        }
+
+        .store-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 24, 255, 0.4);
+        }
+
+                <p class="brand-tagline">Inventory Management</p>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="store-nav">
+                {% with current=request.resolver_match.url_name %}
+                <ul class="store-nav-links">
+                    <li>
+                        <a href="{% url 'dashboard' %}" class="store-nav-link {% if current == 'dashboard' %}active{% endif %}">
+                            <i data-feather="home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'pos' %}" class="store-nav-link {% if current == 'pos' %}active{% endif %}">
+                            <i data-feather="shopping-cart"></i>
+                            <span>POS</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'product_list' %}" class="store-nav-link {% if current == 'product_list' or current == 'product_create' or current == 'product_update' %}active{% endif %}">
+                            <i data-feather="package"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'customer_list' %}" class="store-nav-link {% if current == 'customer_list' %}active{% endif %}">
+                            <i data-feather="users"></i>
+                            <span>Customers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'sales_report' %}" class="store-nav-link {% if current == 'sales_report' %}active{% endif %}">
+                            <i data-feather="bar-chart-2"></i>
+                            <span>Sales Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'settings' %}" class="store-nav-link {% if current == 'settings' %}active{% endif %}">
+                            <i data-feather="settings"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+                {% endwith %}
+            </nav>
+
+            <!-- User Profile -->
+            <div class="store-user-profile">
+                <div class="store-user-card">
+                    <div class="store-user-avatar">
+                        {{ user.username|slice:":2"|upper }}
+                    </div>
+                    <div class="store-user-info">
+                        <p class="store-user-name">{{ user.username }}</p>
+                        <p class="store-user-role">{% if user.is_superuser %}Admin{% else %}Staff{% endif %}</p>
+                    </div>
+                    <a href="{% url 'logout' %}" class="store-logout-btn" title="Logout">
+                        <i data-feather="log-out"></i>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content wrapper -->
+        <div class="store-main-wrapper">
+            <!-- Desktop header -->
+            <header class="store-header">
+                <div class="store-header-content">
+                    <!-- Search bar -->
+                    <div class="store-search-wrapper">
+                        <div class="store-search-glass">
+                            <input type="text" placeholder="Search products, customers..." id="globalSearch">
+                            <i data-feather="search"></i>
+                        </div>
+                    </div>
+
+                    <!-- Header actions -->
+                    <div class="store-header-actions">
+                        <!-- Notification -->
+                        <button class="store-notification-btn">
+                            <i data-feather="bell"></i>
+                            <span class="store-notification-badge"></span>
+                        </button>
+
+                        <!-- Quick actions -->
+                        <a href="{% url 'pos' %}" class="store-action-btn">
+                            <i data-feather="plus"></i>
+                            <span>New Sale</span>
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Mobile header -->
+            <header class="store-mobile-header">
+                <button class="store-mobile-menu-btn" onclick="openSidebar()">
+                    <i data-feather="menu"></i>
+                </button>
+                <div class="store-mobile-title">
+                    {% block mobile_title %}POS-Lite{% endblock %}
+                </div>
+                <div class="store-header-actions">
+                    <a href="{% url 'pos' %}" class="store-action-btn">
+                        <i data-feather="plus"></i>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Page content -->
+            <main class="store-content">
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </main>
+
+            <!-- Mobile bottom navigation -->
+            {% with current=request.resolver_match.url_name %}
+            <nav class="bottom-tabbar">
+                <a href="{% url 'dashboard' %}" class="tab-item {% if current == 'dashboard' %}active{% endif %}">
+                    <i data-feather="home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="{% url 'pos' %}" class="tab-item {% if current == 'pos' %}active{% endif %}">
+                    <i data-feather="shopping-cart"></i>
+                    <span>POS</span>
+                </a>
+                <a href="{% url 'product_list' %}" class="tab-item {% if current == 'product_list' %}active{% endif %}">
+                    <i data-feather="package"></i>
+                    <span>Products</span>
+                </a>
+                <a href="{% url 'sales_report' %}" class="tab-item {% if current == 'sales_report' %}active{% endif %}">
+                    <i data-feather="bar-chart-2"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="{% url 'settings' %}" class="tab-item {% if current == 'settings' %}active{% endif %}">
+                    <i data-feather="settings"></i>
+                    <span>More</span>
+                </a>
+            </nav>
+            {% endwith %}
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        feather.replace();
+
+        function openSidebar() {
+            const sidebar = document.getElementById('storeSidebar');
+            const overlay = document.getElementById('storeSidebarOverlay');
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('storeSidebar');
+            const overlay = document.getElementById('storeSidebarOverlay');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        }
+
+        // Close sidebar on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSidebar();
+        });
+
+        // Global search functionality (placeholder)
+        const globalSearch = document.getElementById('globalSearch');
+        if (globalSearch) {
+            globalSearch.addEventListener('input', (e) => {
+                // Implement search functionality
+                console.log('Searching:', e.target.value);
+            });
+        }
+    </script>
+    {% if request.session.theme_color %}
+    <style>:root { --primary: {{ request.session.theme_color }}; }</style>
+    {% endif %}
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

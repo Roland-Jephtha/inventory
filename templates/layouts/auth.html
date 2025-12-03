@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block layout %}
+<div
+  class="min-h-screen flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-950"
+>
+  <div class="w-full max-w-md">
+    <div class="text-center mb-8">
+      <div
+        class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-600 text-white mb-4 shadow-lg shadow-primary-600/30"
+      >
+        <i data-feather="box" class="w-6 h-6"></i>
+      </div>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
+        POS-Lite
+      </h1>
+      <p class="text-slate-500 dark:text-slate-400 mt-2">
+        Manage your business with ease
+      </p>
+    </div>
+
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden"
+    >
+      <div class="p-6 md:p-8">{% block content %}{% endblock %}</div>
+    </div>
+
+    <div class="text-center mt-6">{% block footer_links %}{% endblock %}</div>
+  </div>
+</div>
+{% endblock %}

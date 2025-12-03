@@ -1,0 +1,152 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}POS-Lite{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <meta name="theme-color" content="#4318ff">
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+    <div class="app-container">
+        {% if user.is_authenticated %}
+        <nav class="sidebar">
+            <div class="brand">
+                <h2>POS-Lite</h2>
+            </div>
+            {% with current=request.resolver_match.url_name %}
+            <ul class="nav-links">
+                <li><a href="{% url 'dashboard' %}" class="nav-link {% if current == 'dashboard' %}active{% endif %}"><i data-feather="home"></i> <span>Dashboard</span></a></li>
+                <li><a href="{% url 'pos' %}" class="nav-link {% if current == 'pos' %}active{% endif %}"><i data-feather="shopping-cart"></i> <span>POS</span></a></li>
+                <li><a href="{% url 'product_list' %}" class="nav-link {% if current == 'product_list' %}active{% endif %}"><i data-feather="box"></i> <span>Inventory</span></a></li>
+                <li><a href="{% url 'customer_list' %}" class="nav-link {% if current == 'customer_list' %}active{% endif %}"><i data-feather="users"></i> <span>Customers</span></a></li>
+                <li><a href="{% url 'sales_report' %}" class="nav-link {% if current == 'sales_report' %}active{% endif %}"><i data-feather="bar-chart-2"></i> <span>Reports</span></a></li>
+                <li><a href="{% url 'settings' %}" class="nav-link {% if current == 'settings' %}active{% endif %}"><i data-feather="settings"></i> <span>Settings</span></a></li>
+            </ul>
+            {% endwith %}
+            <div class="user-profile">
+                <p>{{ user.username }}</p>
+                <a href="{% url 'logout' %}" class="text-danger">Logout</a>
+            </div>
+        </nav>
+        {% endif %}
+
+        <main class="main-content">
+            {% if user.is_authenticated %}
+            <div class="mobile-appbar">
+                <button id="back-btn" class="btn btn-outline" aria-label="Go back"><i data-feather="arrow-left"></i></button>
+                <div class="appbar-title">
+                    {% block appbar_title %}POS-Lite{% endblock %}
+                    <span id="online-status" class="status-dot"></span>
+                </div>
+                <div class="appbar-actions">
+                    <button id="menu-toggle" class="btn btn-outline" aria-label="Open menu"><i data-feather="menu"></i></button>
+                    {% block appbar_actions %}{% endblock %}
+                </div>
+            </div>
+            {% endif %}
+            
+
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </main>
+        {% if user.is_authenticated %}
+        {% with current=request.resolver_match.url_name %}
+        <nav class="bottom-tabbar">
+            <a href="{% url 'dashboard' %}" class="tab-item {% if current == 'dashboard' %}active{% endif %}"><i data-feather="home"></i><span>Home</span></a>
+            <a href="{% url 'pos' %}" class="tab-item {% if current == 'pos' %}active{% endif %}"><i data-feather="shopping-cart"></i><span>POS</span></a>
+            <a href="{% url 'product_list' %}" class="tab-item {% if current == 'product_list' %}active{% endif %}"><i data-feather="box"></i><span>Inventory</span></a>
+            <a href="{% url 'customer_list' %}" class="tab-item {% if current == 'customer_list' %}active{% endif %}"><i data-feather="users"></i><span>Customers</span></a>
+            <a href="{% url 'settings' %}" class="tab-item {% if current == 'settings' %}active{% endif %}"><i data-feather="more-horizontal"></i><span>More</span></a>
+        </nav>
+        {% endwith %}
+        {% endif %}
+    </div>
+
+    <script>
+        feather.replace();
+
+        // Theme Toggle
+        const toggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        // Check local storage
+        if (localStorage.getItem('theme') === 'dark') {
+            html.setAttribute('data-theme', 'dark');
+        }
+
+        if (toggle) {
+            toggle.addEventListener('click', () => {
+                const current = html.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+            });
+        }
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('{% static 'js/service-worker.js' %}');
+            });
+        }
+        const sidebar = document.querySelector('.sidebar');
+        const menuToggle = document.getElementById('menu-toggle');
+        const backBtn = document.getElementById('back-btn');
+        let overlay;
+        function openSidebar() {
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'sidebar-overlay';
+                overlay.onclick = closeSidebar;
+                document.body.appendChild(overlay);
+            }
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+        }
+        function closeSidebar() {
+            if (sidebar) sidebar.classList.remove('open');
+            if (overlay) overlay.classList.remove('show');
+        }
+        if (menuToggle) {
+            menuToggle.addEventListener('click', openSidebar);
+        }
+        if (backBtn) {
+            backBtn.addEventListener('click', () => {
+                if (window.history.length > 1) { window.history.back(); } else { window.location.href = "{% url 'dashboard' %}"; }
+            });
+        }
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
+        const statusDot = document.getElementById('online-status');
+        function updateOnline() {
+            if (!statusDot) return;
+            statusDot.className = 'status-dot ' + (navigator.onLine ? 'online' : 'offline');
+        }
+        window.addEventListener('online', updateOnline);
+        window.addEventListener('offline', updateOnline);
+        updateOnline();
+    </script>
+    {% if request.session.theme_color %}
+    <style>:root { --primary: {{ request.session.theme_color }}; }</style>
+    {% endif %}
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>
+
+

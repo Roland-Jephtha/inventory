@@ -1,0 +1,20 @@
+{
+  "name": "POS-Lite",
+  "short_name": "POS-Lite",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f7fe",
+  "theme_color": "#4318ff",
+  "icons": [
+    {
+      "src": "/static/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

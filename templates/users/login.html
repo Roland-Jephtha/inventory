@@ -1,0 +1,98 @@
+{% extends 'layouts/auth.html' %} {% block title %}Login - POS-Lite{% endblock
+%}
+
+{% block content %}
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+  Welcome back
+</h2>
+<p class="text-slate-500 dark:text-slate-400 mb-8">
+  Sign in to your account to continue
+</p>
+
+<form method="post" class="space-y-4">
+  {% csrf_token %} {% if form.errors %}
+  <div
+    class="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 rounded-xl"
+  >
+    <p class="text-sm text-red-700 dark:text-red-400">
+      Invalid username or password. Please try again.
+    </p>
+  </div>
+  {% endif %}
+
+  <div>
+    <label
+      for="id_username"
+      class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block"
+      >Username</label
+    >
+    <div class="relative">
+      <i
+        data-feather="user"
+        class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+      ></i>
+      <input
+        type="text"
+        name="username"
+        id="id_username"
+        required
+        class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent placeholder-slate-400"
+        placeholder="Enter your username"
+      />
+    </div>
+  </div>
+
+  <div>
+    <label
+      for="id_password"
+      class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block"
+      >Password</label
+    >
+    <div class="relative">
+      <i
+        data-feather="lock"
+        class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+      ></i>
+      <input
+        type="password"
+        name="password"
+        id="id_password"
+        required
+        class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent placeholder-slate-400"
+        placeholder="Enter your password"
+      />
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between text-sm">
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        class="w-4 h-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+      />
+      <span class="text-slate-600 dark:text-slate-400">Remember me</span>
+    </label>
+    <a href="#" class="text-primary-600 hover:text-primary-700 font-medium"
+      >Forgot password?</a
+    >
+  </div>
+
+  <button
+    type="submit"
+    class="w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold shadow-lg shadow-primary-600/20 transition-colors"
+  >
+    Sign In
+  </button>
+</form>
+{% endblock %}
+
+{% block footer_links %}
+<p class="text-sm text-slate-600 dark:text-slate-400">
+  Don't have an account?
+  <a
+    href="{% url 'signup' %}"
+    class="text-primary-600 hover:text-primary-700 font-medium"
+    >Sign up</a
+  >
+</p>
+{% endblock %}

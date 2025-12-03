@@ -1,0 +1,14 @@
+{% extends 'layouts/app.html' %}
+{% load humanize %}
+
+{% block title %}Products - POS-Lite{% endblock %}
+
+{% block appbar_title %}Inventory{% endblock %}
+
+{% block content %}
+<div class="p-4">
+    <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Product Inventory</h1>
+    <p class="text-slate-500 dark:text-slate-400">Your products will appear here</p>
+    <a href="{% url 'product_create' %}" class="mt-4 inline-block px-4 py-2 bg-primary-600 text-white rounded-lg">Add Product</a>
+</div>
+{% endblock %}

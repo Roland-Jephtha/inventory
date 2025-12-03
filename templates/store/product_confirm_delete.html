@@ -1,0 +1,26 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Delete Product - POS-Lite{% endblock %}
+
+{% block content %}
+<div class="delete-container">
+    <div class="card text-center">
+        <div class="icon-wrapper">
+            <i data-feather="alert-triangle" class="text-danger"></i>
+        </div>
+        <h2>Delete Product?</h2>
+        <p class="text-secondary mb-4">Are you sure you want to delete <strong>{{ product.name }}</strong>? This action
+            cannot be undone.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="actions">
+                <a href="{% url 'product_list' %}" class="btn btn-outline">Cancel</a>
+                <button type="submit" class="btn btn-danger">Delete Product</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+ 
+{% endblock %}

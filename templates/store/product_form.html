@@ -1,0 +1,86 @@
+{% extends 'store/base.html' %} {% block title %}{% if form.instance.pk %}Edit
+Product{% else %}Add Product{% endif %} - POS-Lite{% endblock %}
+
+{% block
+appbar_title %}{% if form.instance.pk %}Edit Product{% else %}Add Product{%
+endif %}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+  <div>
+    <h1>
+      {% if form.instance.pk %}Edit Product{% else %}Add Product{% endif %}
+    </h1>
+    <p class="text-secondary">
+      {% if form.instance.pk %}Update product information{% else %}Add a new
+      product to your inventory{% endif %}
+    </p>
+  </div>
+  <a href="{% url 'product_list' %}" class="btn btn-outline">
+    <i data-feather="arrow-left"></i> Back to List
+  </a>
+</div>
+
+<div class="form-container">
+  <div class="card">
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %} {% if form.non_field_errors %}
+      <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="form-grid two-col">
+        <div class="form-group full-width">
+          <label for="{{ form.name.id_for_label }}">Product Name</label>
+          {{ form.name }} {{ form.name.errors }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.category.id_for_label }}">Category</label>
+          {{ form.category }} {{ form.category.errors }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.barcode.id_for_label }}">Barcode</label>
+          {{ form.barcode }} {{ form.barcode.errors }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.price.id_for_label }}">Selling Price</label>
+          {{ form.price }} {{ form.price.errors }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.cost_price.id_for_label }}">Cost Price</label>
+          {{ form.cost_price }} {{ form.cost_price.errors }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.stock_quantity.id_for_label }}"
+            >Stock Quantity</label
+          >
+          {{ form.stock_quantity }} {{ form.stock_quantity.errors }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.low_stock_threshold.id_for_label }}"
+            >Low Stock Alert At</label
+          >
+          {{ form.low_stock_threshold }} {{ form.low_stock_threshold.errors }}
+        </div>
+
+        <div class="form-group full-width">
+          <label for="{{ form.image.id_for_label }}">Product Image</label>
+          {{ form.image }} {{ form.image.errors }}
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save Product</button>
+        <a href="{% url 'product_list' %}" class="btn btn-ghost">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
