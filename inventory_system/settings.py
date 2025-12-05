@@ -25,7 +25,14 @@ SECRET_KEY = "django-insecure-0sm)is@jca2=m=xz570hl#k%g#zv$qj%k^*fyl35t*0h^isx63
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+import os
+import cloudinary_storage
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,6 +49,9 @@ INSTALLED_APPS = [
     "core",
     "users",
     "store",
+    'whitenoise.runserver_nostatic',
+    'cloudinary',
+    'cloudinary_storage'
 ]
 
 MIDDLEWARE = [
@@ -53,6 +63,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "core.middleware.SubscriptionMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = "inventory_system.urls"
@@ -80,12 +91,41 @@ WSGI_APPLICATION = "inventory_system.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
+
+
+
+
+
+
+
+
+
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'defaultdb',
+        'USER': 'avnadmin',
+        'PASSWORD': 'AVNS_w9kNi9dSNghP-sgQHC_',
+        'HOST': 'pg-243e00f3-rolandjephtha730-053f.c.aivencloud.com',  # Replace this with the correct host
+        'PORT': '10348',  # Replace with your database port if needed
     }
 }
+
+
+
+
+
+
+
+
 
 
 # Password validation
@@ -124,7 +164,15 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+
+
+
+
+
+STATIC_ROOT = os.path.join(BASE_DIR/ 'staticfiles_build', 'static')
+
+
+
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
@@ -137,3 +185,24 @@ LOGOUT_REDIRECT_URL = "login"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+
+
+CLOUDINARY_STORAGE ={
+    'CLOUD_NAME': 'dx67lmaku',
+    'API_KEY' : '223338436211385',
+    'API_SECRET' : 'F-Iel3L-Kw1fHzy1xEhgkGunRPw',
+    'API_PROXY' : "http://proxy.server:3128"
+}
+
+
+#  cloudinary.config(
+#     cloud_name ='dx67lmaku',
+#     api_key = '223338436211385',
+#     api_secret =  'F-Iel3L-Kw1fHzy1xEhgkGunRPw',
+#     api_proxy = "http://proxy.server:3128"
+
+# )
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
