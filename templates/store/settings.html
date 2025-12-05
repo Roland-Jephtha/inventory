@@ -1,4 +1,6 @@
-{% extends 'layouts/app.html' %} {% block title %}Settings - POS-Lite{% endblock %}
+{% extends 'layouts/app.html' %}
+
+{% block title %}Settings - POS-Lite{% endblock %}
 
 {% block mobile_back_button %}
 <button onclick="history.back()" class="w-8 h-8 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center -ml-2">
@@ -13,19 +15,13 @@
   <!-- Header -->
   <div class="mb-8">
     <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Settings</h1>
-    <p class="text-slate-500 dark:text-slate-400">
-      Manage your preferences and business information
-    </p>
+    <p class="text-slate-500 dark:text-slate-400">Manage your preferences and business information</p>
   </div>
 
   <!-- Appearance Section -->
-  <div
-    class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 overflow-hidden"
-  >
+  <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 overflow-hidden">
     <div class="p-6 border-b border-slate-200 dark:border-slate-800">
-      <h2
-        class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2"
-      >
+      <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
         <i data-feather="sun" class="w-5 h-5"></i>
         Appearance
       </h2>
@@ -33,36 +29,15 @@
     <div class="p-6 space-y-6">
       <!-- Theme Toggle -->
       <div>
-        <label
-          class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3 block"
-          >Theme</label
-        >
-        <div
-          class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1"
-          role="group"
-        >
-          <button
-            type="button"
-            onclick="setTheme('light')"
-            id="theme-light"
-            class="theme-btn px-4 py-2 text-sm font-medium rounded-lg transition-all"
-          >
+        <label class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3 block">Theme</label>
+        <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1" role="group">
+          <button type="button" onclick="setTheme('light')" id="theme-light" class="theme-btn px-4 py-2 text-sm font-medium rounded-lg transition-all">
             <i data-feather="sun" class="w-4 h-4 inline mr-2"></i>Light
           </button>
-          <button
-            type="button"
-            onclick="setTheme('dark')"
-            id="theme-dark"
-            class="theme-btn px-4 py-2 text-sm font-medium rounded-lg transition-all"
-          >
+          <button type="button" onclick="setTheme('dark')" id="theme-dark" class="theme-btn px-4 py-2 text-sm font-medium rounded-lg transition-all">
             <i data-feather="moon" class="w-4 h-4 inline mr-2"></i>Dark
           </button>
-          <button
-            type="button"
-            onclick="setTheme('auto')"
-            id="theme-auto"
-            class="theme-btn px-4 py-2 text-sm font-medium rounded-lg transition-all"
-          >
+          <button type="button" onclick="setTheme('auto')" id="theme-auto" class="theme-btn px-4 py-2 text-sm font-medium rounded-lg transition-all">
             <i data-feather="monitor" class="w-4 h-4 inline mr-2"></i>Auto
           </button>
         </div>
@@ -70,100 +45,54 @@
 
       <!-- Accent Color -->
       <div>
-        <label
-          class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3 block"
-          >Accent Color</label
-        >
+        <label class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3 block">Accent Color</label>
         <div class="flex gap-3">
-          <button
-            onclick="setAccentColor('#4f46e5')"
-            class="w-10 h-10 rounded-full bg-indigo-600 border-2 border-white dark:border-slate-900 shadow-lg ring-2 ring-indigo-600"
-          ></button>
-          <button
-            onclick="setAccentColor('#0ea5e9')"
-            class="w-10 h-10 rounded-full bg-sky-500 border-2 border-white dark:border-slate-900 shadow-lg hover:ring-2 hover:ring-sky-500"
-          ></button>
-          <button
-            onclick="setAccentColor('#8b5cf6')"
-            class="w-10 h-10 rounded-full bg-violet-500 border-2 border-white dark:border-slate-900 shadow-lg hover:ring-2 hover:ring-violet-500"
-          ></button>
-          <button
-            onclick="setAccentColor('#ec4899')"
-            class="w-10 h-10 rounded-full bg-pink-500 border-2 border-white dark:border-slate-900 shadow-lg hover:ring-2 hover:ring-pink-500"
-          ></button>
-          <button
-            onclick="setAccentColor('#f59e0b')"
-            class="w-10 h-10 rounded-full bg-amber-500 border-2 border-white dark:border-slate-900 shadow-lg hover:ring-2 hover:ring-amber-500"
-          ></button>
+          <button onclick="setAccentColor('#4f46e5')" class="w-10 h-10 rounded-full bg-indigo-600 border-2 border-white dark:border-slate-900 shadow-lg ring-2 ring-indigo-600"></button>
+          <button onclick="setAccentColor('#0ea5e9')" class="w-10 h-10 rounded-full bg-sky-500 border-2 border-white dark:border-slate-900 shadow-lg hover:ring-2 hover:ring-sky-500"></button>
+          <button onclick="setAccentColor('#8b5cf6')" class="w-10 h-10 rounded-full bg-violet-500 border-2 border-white dark:border-slate-900 shadow-lg hover:ring-2 hover:ring-violet-500"></button>
+          <button onclick="setAccentColor('#ec4899')" class="w-10 h-10 rounded-full bg-pink-500 border-2 border-white dark:border-slate-900 shadow-lg hover:ring-2 hover:ring-pink-500"></button>
+          <button onclick="setAccentColor('#f59e0b')" class="w-10 h-10 rounded-full bg-amber-500 border-2 border-white dark:border-slate-900 shadow-lg hover:ring-2 hover:ring-amber-500"></button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Profile Section -->
-  <div
-    class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 overflow-hidden"
-  >
+  <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 overflow-hidden">
     <div class="p-6 border-b border-slate-200 dark:border-slate-800">
-      <h2
-        class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2"
-      >
+      <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
         <i data-feather="user" class="w-5 h-5"></i>
         Profile
       </h2>
     </div>
     <div class="p-6">
       <div class="flex items-center gap-4 mb-6">
-        <div
-          class="w-20 h-20 rounded-full bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center text-primary-700 dark:text-primary-300 text-2xl font-bold"
-        >
+        <div class="w-20 h-20 rounded-full bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center text-primary-700 dark:text-primary-300 text-2xl font-bold">
           {{ request.user.username|slice:":1"|upper }}
         </div>
         <div>
-          <h3 class="font-bold text-slate-900 dark:text-white">
-            {{ request.user.username }}
-          </h3>
+          <h3 class="font-bold text-slate-900 dark:text-white">{{ request.user.username }}</h3>
           <p class="text-sm text-slate-500">{{ request.user.email }}</p>
         </div>
       </div>
 
       <div class="space-y-4">
         <div>
-          <label
-            class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block"
-            >Username</label
-          >
-          <input
-            type="text"
-            value="{{ request.user.username }}"
-            disabled
-            class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-          />
+          <label class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Username</label>
+          <input type="text" value="{{ request.user.username }}" disabled class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"/>
         </div>
         <div>
-          <label
-            class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block"
-            >Email</label
-          >
-          <input
-            type="email"
-            value="{{ request.user.email }}"
-            disabled
-            class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-          />
+          <label class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Email</label>
+          <input type="email" value="{{ request.user.email }}" disabled class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"/>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Business Information -->
-  <div
-    class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 overflow-hidden"
-  >
+  <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 overflow-hidden">
     <div class="p-6 border-b border-slate-200 dark:border-slate-800">
-      <h2
-        class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2"
-      >
+      <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
         <i data-feather="briefcase" class="w-5 h-5"></i>
         Business Information
       </h2>
@@ -173,46 +102,19 @@
         {% csrf_token %}
         <div class="space-y-4">
           <div>
-            <label
-              class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block"
-              >Business Name</label
-            >
-            <input
-              type="text"
-              name="store_name"
-              value="{{ store.name|default:'POS-Lite' }}"
-              class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            />
+            <label class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Business Name</label>
+            <input type="text" name="store_name" value="{{ store.store_name|default:'POS-Lite' }}" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"/>
           </div>
           <div>
-            <label
-              class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block"
-              >Address</label
-            >
-            <input
-              type="text"
-              name="store_address"
-              value="{{ store.address|default:'' }}"
-              class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            />
+            <label class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Address</label>
+            <input type="text" name="store_address" value="{{ store.address|default:'' }}" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"/>
           </div>
           <div>
-            <label
-              class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block"
-              >Phone Number</label
-            >
-            <input
-              type="tel"
-              name="store_phone"
-              value="{{ store.phone|default:'' }}"
-              class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            />
+            <label class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 block">Phone Number</label>
+            <input type="tel" name="store_phone" value="{{ store.phone|default:'' }}" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent"/>
           </div>
         </div>
-        <button
-          type="submit"
-          class="mt-6 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-medium transition-colors shadow-lg shadow-primary-600/20 flex items-center gap-2"
-        >
+        <button type="submit" class="mt-6 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-medium transition-colors shadow-lg shadow-primary-600/20 flex items-center gap-2">
           <i data-feather="save" class="w-4 h-4"></i>
           Save Changes
         </button>
@@ -221,58 +123,35 @@
   </div>
 
   <!-- System Information -->
-  <div
-    class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 overflow-hidden"
-  >
+  <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6 overflow-hidden">
     <div class="p-6 border-b border-slate-200 dark:border-slate-800">
-      <h2
-        class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2"
-      >
+      <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
         <i data-feather="info" class="w-5 h-5"></i>
         System Information
       </h2>
     </div>
     <div class="p-6 space-y-3">
-      <div
-        class="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded-xl"
-      >
+      <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
         <span class="text-sm text-slate-600 dark:text-slate-400">Version</span>
-        <span class="text-sm font-medium text-slate-900 dark:text-white"
-          >1.0.0</span
-        >
+        <span class="text-sm font-medium text-slate-900 dark:text-white">1.0.0</span>
       </div>
-      <div
-        class="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded-xl"
-      >
-        <span class="text-sm text-slate-600 dark:text-slate-400"
-          >Last Backup</span
-        >
-        <span class="text-sm font-medium text-slate-900 dark:text-white"
-          >Never</span
-        >
+      <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">
+        <span class="text-sm text-slate-600 dark:text-slate-400">Last Backup</span>
+        <span class="text-sm font-medium text-slate-900 dark:text-white">Never</span>
       </div>
     </div>
   </div>
 
   <!-- Danger Zone -->
-  <div
-    class="bg-white dark:bg-slate-900 rounded-2xl border border-red-200 dark:border-red-900/50 shadow-sm overflow-hidden"
-  >
-    <div
-      class="p-6 border-b border-red-200 dark:border-red-900/50 bg-red-50/50 dark:bg-red-900/10"
-    >
-      <h2
-        class="text-lg font-bold text-red-700 dark:text-red-400 flex items-center gap-2"
-      >
+  <div class="bg-white dark:bg-slate-900 rounded-2xl border border-red-200 dark:border-red-900/50 shadow-sm overflow-hidden">
+    <div class="p-6 border-b border-red-200 dark:border-red-900/50 bg-red-50/50 dark:bg-red-900/10">
+      <h2 class="text-lg font-bold text-red-700 dark:text-red-400 flex items-center gap-2">
         <i data-feather="alert-triangle" class="w-5 h-5"></i>
         Danger Zone
       </h2>
     </div>
     <div class="p-6">
-      <a
-        href="{% url 'logout' %}"
-        class="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-medium transition-colors shadow-lg shadow-red-600/20"
-      >
+      <a href="{% url 'logout' %}" class="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-medium transition-colors shadow-lg shadow-red-600/20">
         <i data-feather="log-out" class="w-4 h-4"></i>
         Logout
       </a>
@@ -285,11 +164,7 @@
   function setTheme(theme) {
     localStorage.theme = theme;
 
-    if (
-      theme === "dark" ||
-      (theme === "auto" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
+    if (theme === "dark" || (theme === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
@@ -301,26 +176,14 @@
   function updateThemeButtons() {
     const currentTheme = localStorage.theme || "auto";
     document.querySelectorAll(".theme-btn").forEach((btn) => {
-      btn.classList.remove(
-        "bg-white",
-        "dark:bg-slate-700",
-        "text-slate-900",
-        "dark:text-white",
-        "shadow-sm"
-      );
+      btn.classList.remove("bg-white", "dark:bg-slate-700", "text-slate-900", "dark:text-white", "shadow-sm");
       btn.classList.add("text-slate-600", "dark:text-slate-400");
     });
 
     const activeBtn = document.getElementById(`theme-${currentTheme}`);
     if (activeBtn) {
       activeBtn.classList.remove("text-slate-600", "dark:text-slate-400");
-      activeBtn.classList.add(
-        "bg-white",
-        "dark:bg-slate-700",
-        "text-slate-900",
-        "dark:text-white",
-        "shadow-sm"
-      );
+      activeBtn.classList.add("bg-white", "dark:bg-slate-700", "text-slate-900", "dark:text-white", "shadow-sm");
     }
   }
 

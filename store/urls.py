@@ -17,6 +17,9 @@ urlpatterns = [
     
     path('customers/', views.customer_list, name='customer_list'),
     path('customers/add/', views.customer_create, name='customer_create'),
+    path('customers/search/', views.search_customers, name='search_customers'),
     path('reports/', views.sales_report, name='sales_report'),
+    path('sales/<int:pk>/', views.sale_detail, name='sale_detail'),
+    path('sales/<int:pk>/receipt/', views.sale_receipt, name='sale_receipt'),
     path('settings/', views.settings_view, name='settings'),
 ]

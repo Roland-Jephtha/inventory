@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q, F, Sum
 from django.utils import timezone
-from .models import Product, Category, SaleItem, Sale, Customer
+from .models import Product, Category, SaleItem, Sale, Customer, StoreSettings
 from .forms import ProductForm, CategoryForm, SaleForm, CustomerForm
 
 @login_required
@@ -120,21 +121,82 @@ def product_delete(request, pk):
 
 @login_required
 def customer_list(request):
-    customers = Customer.objects.all().order_by('-created_at')
+    customers = Customer.objects.annotate(
+        total_spent=Sum('sales__total_amount')
+    ).order_by('-created_at')
     return render(request, 'store/customer_list.html', {'customers': customers, 'form': CustomerForm()})
+
+import csv
+from django.http import HttpResponse
 
 @login_required
 def sales_report(request):
-    return render(request, 'store/sales_report.html')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    
+    sales = Sale.objects.select_related('customer').prefetch_related('items').order_by('-created_at')
+    
+    if start_date:
+        sales = sales.filter(created_at__date__gte=start_date)
+    if end_date:
+        sales = sales.filter(created_at__date__lte=end_date)
+    
+    # Export to CSV
+    if request.GET.get('export') == 'csv':
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="sales_report_{timezone.now().date()}.csv"'
+        
+        writer = csv.writer(response)
+        writer.writerow(['Date', 'Reference', 'Customer', 'Payment Method', 'Items', 'Total Amount'])
+        
+        for sale in sales:
+            writer.writerow([
+                sale.created_at.strftime('%Y-%m-%d %H:%M'),
+                sale.reference,
+                sale.customer.name if sale.customer else 'Walk-in',
+                sale.get_payment_method_display(),
+                sale.items.count(),
+                sale.total_amount
+            ])
+        
+        # Add Total Row
+        total_sum = sales.aggregate(total=Sum('total_amount'))['total'] or 0
+        writer.writerow([])
+        writer.writerow(['Total', '', '', '', '', total_sum])
+        
+        return response
+
+    # Calculate KPIs
+    total_sales = sales.aggregate(total=Sum('total_amount'))['total'] or 0
+    sales_count = sales.count()
+    items_sold = SaleItem.objects.filter(sale__in=sales).aggregate(total=Sum('quantity'))['total'] or 0
+    average_sale = total_sales / sales_count if sales_count > 0 else 0
+    
+    context = {
+        'sales': sales,
+        'total_sales': total_sales,
+        'sales_count': sales_count,
+        'items_sold': items_sold,
+        'average_sale': average_sale,
+        'start_date': start_date,
+        'end_date': end_date,
+    }
+    return render(request, 'store/sales_report.html', context)
 
 @login_required
 def settings_view(request):
+    # Get or create store settings
+    store, created = StoreSettings.objects.get_or_create(pk=1)
+    
     if request.method == 'POST':
-        color = request.POST.get('theme_color')
-        if color:
-            request.session['theme_color'] = color
-            messages.success(request, 'Theme updated.')
-    return render(request, 'store/settings.html')
+        store.store_name = request.POST.get('store_name', store.store_name)
+        store.address = request.POST.get('store_address', store.address)
+        store.phone = request.POST.get('store_phone', store.phone)
+        store.save()
+        messages.success(request, 'Settings saved successfully!')
+        return redirect('settings')
+    
+    return render(request, 'store/settings.html', {'store': store})
 
 @login_required
 def add_to_cart(request):
@@ -167,6 +229,21 @@ def checkout(request):
         if form.is_valid():
             sale = form.save(commit=False)
             sale.user = request.user
+            
+            # Handle Customer
+            customer_id = request.POST.get('customer_id')
+            customer_name = request.POST.get('customer_name')
+            customer_phone = request.POST.get('customer_phone')
+            
+            if customer_id:
+                sale.customer_id = customer_id
+            elif customer_name and customer_phone:
+                customer, created = Customer.objects.get_or_create(
+                    phone=customer_phone,
+                    defaults={'name': customer_name}
+                )
+                sale.customer = customer
+            
             sale.total_amount = 0
             sale.save()
             total = 0
@@ -184,8 +261,8 @@ def checkout(request):
             sale.total_amount = total
             sale.save()
             request.session['cart'] = {}
-            messages.success(request, f'Sale completed. Total: ${total:.2f}')
-            return redirect('dashboard')
+            messages.success(request, f'Sale completed! Reference: {sale.reference}')
+            return redirect('sale_receipt', pk=sale.pk)
         else:
             messages.error(request, 'Please correct the errors in the form.')
     return redirect('pos')
@@ -211,3 +288,34 @@ def customer_create(request):
         else:
             messages.error(request, 'Please correct the errors.')
     return redirect('customer_list')
+
+@login_required
+def search_customers(request):
+    q = request.GET.get('q', '')
+    if len(q) < 2:
+        return JsonResponse([], safe=False)
+    
+    customers = Customer.objects.filter(
+        Q(name__icontains=q) | Q(phone__icontains=q)
+    )[:10]
+    data = [{'id': c.id, 'name': c.name, 'phone': c.phone} for c in customers]
+    return JsonResponse(data, safe=False)
+
+@login_required
+def sale_detail(request, pk):
+    sale = get_object_or_404(
+        Sale.objects.select_related('customer', 'user')
+                    .prefetch_related('items__product'),
+        pk=pk
+    )
+    return render(request, 'store/sale_detail.html', {'sale': sale})
+
+@login_required
+def sale_receipt(request, pk):
+    sale = get_object_or_404(
+        Sale.objects.select_related('customer', 'user')
+                    .prefetch_related('items__product'),
+        pk=pk
+    )
+    return render(request, 'store/sale_receipt.html', {'sale': sale})
+

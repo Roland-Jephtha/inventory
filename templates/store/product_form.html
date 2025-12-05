@@ -1,86 +1,169 @@
-{% extends 'store/base.html' %} {% block title %}{% if form.instance.pk %}Edit
-Product{% else %}Add Product{% endif %} - POS-Lite{% endblock %}
+{% extends 'layouts/app.html' %}
 
-{% block
-appbar_title %}{% if form.instance.pk %}Edit Product{% else %}Add Product{%
-endif %}{% endblock %}
+{% block title %}{% if form.instance.pk %}Edit Product{% else %}Add Product{% endif %} - POS-Lite{% endblock %}
+
+{% block appbar_title %}{% if form.instance.pk %}Edit Product{% else %}Add Product{% endif %}{% endblock %}
+
+{% block mobile_back_button %}
+<button onclick="history.back()" class="w-8 h-8 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center -ml-2">
+    <i data-feather="arrow-left" class="w-5 h-5"></i>
+</button>
+{% endblock %}
 
 {% block content %}
-<!-- Page Header -->
-<div class="page-header">
-  <div>
-    <h1>
-      {% if form.instance.pk %}Edit Product{% else %}Add Product{% endif %}
-    </h1>
-    <p class="text-secondary">
-      {% if form.instance.pk %}Update product information{% else %}Add a new
-      product to your inventory{% endif %}
-    </p>
-  </div>
-  <a href="{% url 'product_list' %}" class="btn btn-outline">
-    <i data-feather="arrow-left"></i> Back to List
-  </a>
+<div class="max-w-2xl mx-auto">
+    <div class="hidden md:flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
+                {% if form.instance.pk %}Edit Product{% else %}Add Product{% endif %}
+            </h1>
+            <p class="text-slate-500 dark:text-slate-400">
+                {% if form.instance.pk %}Update product information{% else %}Add a new product to your inventory{% endif %}
+            </p>
+        </div>
+        <a href="{% url 'product_list' %}" class="inline-flex items-center gap-2 px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors">
+            <i data-feather="arrow-left" class="w-4 h-4"></i>
+            Back to List
+        </a>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+            <div class="p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50 text-red-600 dark:text-red-400 text-sm">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2 space-y-2">
+                    <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Product Name</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                    <p class="text-sm text-red-500">{{ form.name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="space-y-2">
+                    <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Category</label>
+                    {{ form.category }}
+                    {% if form.category.errors %}
+                    <p class="text-sm text-red-500">{{ form.category.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="space-y-2">
+                    <label for="{{ form.barcode.id_for_label }}" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Barcode</label>
+                    {{ form.barcode }}
+                    {% if form.barcode.errors %}
+                    <p class="text-sm text-red-500">{{ form.barcode.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="space-y-2">
+                    <label for="{{ form.price.id_for_label }}" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Selling Price</label>
+                    {{ form.price }}
+                    {% if form.price.errors %}
+                    <p class="text-sm text-red-500">{{ form.price.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="space-y-2">
+                    <label for="{{ form.cost_price.id_for_label }}" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Cost Price</label>
+                    {{ form.cost_price }}
+                    {% if form.cost_price.errors %}
+                    <p class="text-sm text-red-500">{{ form.cost_price.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="space-y-2">
+                    <label for="{{ form.stock_quantity.id_for_label }}" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Stock Quantity</label>
+                    {{ form.stock_quantity }}
+                    {% if form.stock_quantity.errors %}
+                    <p class="text-sm text-red-500">{{ form.stock_quantity.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="space-y-2">
+                    <label for="{{ form.low_stock_threshold.id_for_label }}" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Low Stock Alert At</label>
+                    {{ form.low_stock_threshold }}
+                    {% if form.low_stock_threshold.errors %}
+                    <p class="text-sm text-red-500">{{ form.low_stock_threshold.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="md:col-span-2 space-y-2">
+                    <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Product Image</label>
+                    {{ form.image }}
+                    {% if form.image.errors %}
+                    <p class="text-sm text-red-500">{{ form.image.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-6 border-t border-slate-100 dark:border-slate-800">
+                <a href="{% url 'product_list' %}" class="px-4 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg font-medium transition-colors">Cancel</a>
+                <button type="submit" class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition-colors shadow-lg shadow-primary-600/20">
+                    Save Product
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
-<div class="form-container">
-  <div class="card">
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %} {% if form.non_field_errors %}
-      <div class="alert alert-danger">{{ form.non_field_errors }}</div>
-      {% endif %}
-
-      <div class="form-grid two-col">
-        <div class="form-group full-width">
-          <label for="{{ form.name.id_for_label }}">Product Name</label>
-          {{ form.name }} {{ form.name.errors }}
-        </div>
-
-        <div class="form-group">
-          <label for="{{ form.category.id_for_label }}">Category</label>
-          {{ form.category }} {{ form.category.errors }}
-        </div>
-
-        <div class="form-group">
-          <label for="{{ form.barcode.id_for_label }}">Barcode</label>
-          {{ form.barcode }} {{ form.barcode.errors }}
-        </div>
-
-        <div class="form-group">
-          <label for="{{ form.price.id_for_label }}">Selling Price</label>
-          {{ form.price }} {{ form.price.errors }}
-        </div>
-
-        <div class="form-group">
-          <label for="{{ form.cost_price.id_for_label }}">Cost Price</label>
-          {{ form.cost_price }} {{ form.cost_price.errors }}
-        </div>
-
-        <div class="form-group">
-          <label for="{{ form.stock_quantity.id_for_label }}"
-            >Stock Quantity</label
-          >
-          {{ form.stock_quantity }} {{ form.stock_quantity.errors }}
-        </div>
-
-        <div class="form-group">
-          <label for="{{ form.low_stock_threshold.id_for_label }}"
-            >Low Stock Alert At</label
-          >
-          {{ form.low_stock_threshold }} {{ form.low_stock_threshold.errors }}
-        </div>
-
-        <div class="form-group full-width">
-          <label for="{{ form.image.id_for_label }}">Product Image</label>
-          {{ form.image }} {{ form.image.errors }}
-        </div>
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Save Product</button>
-        <a href="{% url 'product_list' %}" class="btn btn-ghost">Cancel</a>
-      </div>
-    </form>
-  </div>
-</div>
-
+<style>
+    /* Form styling overrides */
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 0.625rem 1rem;
+        background-color: rgb(248 250 252);
+        border: 1px solid rgb(226 232 240);
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        transition: all 0.2s;
+    }
+    .dark input[type="text"],
+    .dark input[type="number"],
+    .dark input[type="email"],
+    .dark select,
+    .dark textarea {
+        background-color: rgb(30 41 59);
+        border-color: rgb(51 65 85);
+        color: white;
+    }
+    input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: rgb(79 70 229);
+        box-shadow: 0 0 0 2px rgb(79 70 229 / 0.1);
+    }
+    input[type="file"] {
+        padding: 0;
+        background: transparent;
+        border: none;
+    }
+    input[type="file"]::file-selector-button {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid rgb(226 232 240);
+        background-color: rgb(248 250 252);
+        color: rgb(71 85 105);
+        font-weight: 500;
+        font-size: 0.875rem;
+        margin-right: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .dark input[type="file"]::file-selector-button {
+        border-color: rgb(51 65 85);
+        background-color: rgb(30 41 59);
+        color: rgb(148 163 184);
+    }
+</style>
 {% endblock %}

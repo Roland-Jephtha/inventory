@@ -1,4 +1,4 @@
-{% extends 'layouts/app.html' %}
+content = r'''{% extends 'layouts/app.html' %}
 {% load humanize %}
 
 {% block title %}Sales Report - POS-Lite{% endblock %}
@@ -9,13 +9,17 @@
 </button>
 {% endblock %}
 
-{% block appbar_title %}Sales Report{% endblock %}
+{% block appbar_title %}Sales Report{% endblock%}
 
 {% block content %}
 <!-- Header -->
 <div class="mb-8 print-content">
-  <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Sales Reports</h1>
-  <p class="text-slate-500 dark:text-slate-400">Track your sales performance and trends</p>
+  <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
+    Sales Reports
+  </h1>
+  <p class="text-slate-500 dark:text-slate-400">
+    Track your sales performance and trends
+  </p>
 </div>
 
 <!-- Filters -->
@@ -45,14 +49,33 @@
 </div>
 
 <style>
-  @media print {
-    body * { visibility: hidden; }
-    .print-content, .print-content * { visibility: visible; }
-    .print-content { position: relative; left: 0; top: 0; width: 100%; }
-    nav, header, .no-print { display: none !important; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border: 1px solid #ddd; padding: 8px; }
-  }
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .print-content, .print-content * {
+        visibility: visible;
+    }
+    .print-content {
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+    /* Hide non-printable elements */
+    nav, header, .no-print {
+        display: none !important;
+    }
+    /* Ensure table fits */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+}
 </style>
 
 <!-- Stats Grid -->
@@ -62,7 +85,9 @@
       <i data-feather="dollar-sign" class="w-5 h-5"></i>
     </div>
     <p class="text-sm text-slate-500 dark:text-slate-400">Total Revenue</p>
-    <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-1">₦{{ total_sales|default:0|floatformat:2|intcomma }}</h3>
+    <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-1">
+      ₦{{ total_sales|default:0|floatformat:2|intcomma }}
+    </h3>
   </div>
 
   <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
@@ -70,7 +95,9 @@
       <i data-feather="shopping-bag" class="w-5 h-5"></i>
     </div>
     <p class="text-sm text-slate-500 dark:text-slate-400">Total Sales</p>
-    <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-1">{{ sales_count|default:0 }}</h3>
+    <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-1">
+      {{ sales_count|default:0 }}
+    </h3>
   </div>
 
   <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
@@ -78,7 +105,9 @@
       <i data-feather="trending-up" class="w-5 h-5"></i>
     </div>
     <p class="text-sm text-slate-500 dark:text-slate-400">Average Sale</p>
-    <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-1">₦{{ average_sale|default:0|floatformat:2|intcomma }}</h3>
+    <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-1">
+      ₦{{ average_sale|default:0|floatformat:2|intcomma }}
+    </h3>
   </div>
 
   <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
@@ -86,14 +115,18 @@
       <i data-feather="package" class="w-5 h-5"></i>
     </div>
     <p class="text-sm text-slate-500 dark:text-slate-400">Items Sold</p>
-    <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-1">{{ items_sold|default:0 }}</h3>
+    <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mt-1">
+      {{ items_sold|default:0 }}
+    </h3>
   </div>
 </div>
 
 <!-- Sales Table -->
 <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden print-content">
   <div class="p-6 border-b border-slate-200 dark:border-slate-800">
-    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Recent Sales</h3>
+    <h3 class="text-lg font-bold text-slate-900 dark:text-white">
+      Recent Sales
+    </h3>
   </div>
 
   <!-- Desktop Table -->
@@ -106,35 +139,32 @@
           <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Payment</th>
           <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Items</th>
           <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Total</th>
-          <th class="px-6 py-4 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Actions</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
         {% for sale in sales %}
         <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-          <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{{ sale.created_at|date:"M j, Y - g:i A" }}</td>
-          <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">{{ sale.customer.name|default:"Walk-in" }}</td>
+          <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+            {{ sale.created_at|date:"M j, Y - g:i A" }}
+          </td>
+          <td class="px-6 py-4 text-sm font-medium text-slate-900 dark:text-white">
+            {{ sale.customer.name|default:"Walk-in" }}
+          </td>
           <td class="px-6 py-4">
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400">
               {{ sale.get_payment_method_display }}
             </span>
           </td>
-          <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">{{ sale.saleitem_set.count }}</td>
-          <td class="px-6 py-4 text-sm font-bold text-emerald-600 dark:text-emerald-400">₦{{ sale.total_amount|intcomma }}</td>
-          <td class="px-6 py-4">
-            <div class="flex items-center justify-center gap-2">
-              <a href="{% url 'sale_detail' sale.pk %}" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors" title="View Details">
-                <i data-feather="eye" class="w-4 h-4 text-slate-600 dark:text-slate-400"></i>
-              </a>
-              <a href="{% url 'sale_receipt' sale.pk %}" target="_blank" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors" title="Print Receipt">
-                <i data-feather="printer" class="w-4 h-4 text-slate-600 dark:text-slate-400"></i>
-              </a>
-            </div>
+          <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+            {{ sale.saleitem_set.count }}
+          </td>
+          <td class="px-6 py-4 text-sm font-bold text-emerald-600 dark:text-emerald-400">
+            ₦{{ sale.total_amount|intcomma }}
           </td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="6" class="px-6 py-12 text-center">
+          <td colspan="5" class="px-6 py-12 text-center">
             <div class="flex flex-col items-center text-slate-400">
               <i data-feather="bar-chart-2" class="w-12 h-12 mb-3 opacity-20"></i>
               <p class="font-medium">No sales data</p>
@@ -143,11 +173,6 @@
           </td>
         </tr>
         {% endfor %}
-        <!-- Total Row -->
-        <tr class="bg-slate-50 dark:bg-slate-800 font-bold border-t-2 border-slate-200 dark:border-slate-700">
-            <td colspan="4" class="px-6 py-4 text-right text-slate-900 dark:text-white">Total</td>
-            <td colspan="2" class="px-6 py-4 text-emerald-600 dark:text-emerald-400">₦{{ total_sales|intcomma }}</td>
-        </tr>
       </tbody>
     </table>
   </div>
@@ -158,8 +183,12 @@
     <div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4">
       <div class="flex items-start justify-between mb-3">
         <div>
-          <p class="font-medium text-slate-900 dark:text-white">{{ sale.customer.name|default:"Walk-in" }}</p>
-          <p class="text-xs text-slate-500">{{ sale.created_at|date:"M j, Y - g:i A" }}</p>
+          <p class="font-medium text-slate-900 dark:text-white">
+            {{ sale.customer.name|default:"Walk-in" }}
+          </p>
+          <p class="text-xs text-slate-500">
+            {{ sale.created_at|date:"M j, Y - g:i A" }}
+          </p>
         </div>
         <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400">
           {{ sale.get_payment_method_display }}
@@ -168,16 +197,6 @@
       <div class="flex items-center justify-between pt-3 border-t border-slate-200 dark:border-slate-700">
         <span class="text-sm text-slate-600 dark:text-slate-400">{{ sale.saleitem_set.count }} items</span>
         <span class="text-lg font-bold text-emerald-600 dark:text-emerald-400">₦{{ sale.total_amount|intcomma }}</span>
-      </div>
-      <div class="flex items-center gap-2 pt-3 border-t border-slate-200 dark:border-slate-700 mt-3">
-        <a href="{% url 'sale_detail' sale.pk %}" class="flex-1 px-3 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 transition-colors flex items-center justify-center gap-2">
-          <i data-feather="eye" class="w-4 h-4"></i>
-          View
-        </a>
-        <a href="{% url 'sale_receipt' sale.pk %}" target="_blank" class="flex-1 px-3 py-2 bg-primary-600 hover:bg-primary-700 rounded-lg text-sm font-medium text-white transition-colors flex items-center justify-center gap-2">
-          <i data-feather="printer" class="w-4 h-4"></i>
-          Receipt
-        </a>
       </div>
     </div>
     {% empty %}
@@ -191,3 +210,10 @@
   </div>
 </div>
 {% endblock %}
+'''
+
+import os
+filepath = 'templates/store/sales_report.html'
+with open(filepath, 'w', encoding='utf-8', newline='\n') as f:
+    f.write(content)
+print(f'Successfully updated {filepath}')

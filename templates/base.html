@@ -49,6 +49,9 @@
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
 
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
     <!-- Theme Logic -->
     <script>
       if (
@@ -106,6 +109,19 @@
 
     <script>
       feather.replace();
+
+      // HTMX Configuration
+      document.addEventListener("DOMContentLoaded", function () {
+        // Configure HTMX
+        htmx.config.historyCacheSize = 20;
+        htmx.config.defaultSwapStyle = "innerHTML";
+        htmx.config.scrollBehavior = "smooth";
+
+        // Re-initialize Feather icons after HTMX swap
+        document.body.addEventListener("htmx:afterSwap", function (event) {
+          feather.replace();
+        });
+      });
     </script>
     {% block extra_js %}{% endblock %}
   </body>

@@ -1,4 +1,4 @@
-{% extends 'layouts/app.html' %}
+content = r'''{% extends 'layouts/app.html' %}
 {% load humanize %}
 
 {% block title %}Products - POS-Lite{% endblock %}
@@ -205,3 +205,10 @@
     }
 </script>
 {% endblock %}
+'''
+
+import os
+filepath = 'templates/store/product_list.html'
+with open(filepath, 'w', encoding='utf-8', newline='\n') as f:
+    f.write(content)
+print(f'Successfully updated {filepath}')
