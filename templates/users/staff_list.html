@@ -1,5 +1,12 @@
 {% extends 'layouts/app.html' %} {% block title %}Staff Management - POS-Lite
-{%endblock %} {% block content %}
+{% endblock %} {% block mobile_back_button %}
+<a
+  href="{% url 'dashboard' %}"
+  class="p-2 -ml-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+>
+  <i data-feather="arrow-left" class="w-5 h-5"></i>
+</a>
+{% endblock %} {% block content %}
 <div class="p-4 sm:p-6 lg:p-8">
   <!-- Header -->
   <div
