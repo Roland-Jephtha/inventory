@@ -1,0 +1,30 @@
+<div class="p-6 text-center">
+  <div
+    class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center mx-auto mb-3"
+  >
+    <i
+      data-feather="lock"
+      class="w-6 h-6 text-amber-600 dark:text-amber-400"
+    ></i>
+  </div>
+  <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">
+    Access Paused
+  </h3>
+  <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
+    Activate a plan to perform this action.
+  </p>
+  <div class="space-y-2">
+    <button
+      onclick="window.location.href='{% url 'access_paused' %}'"
+      class="w-full py-2 px-4 bg-primary-600 text-white rounded-lg font-medium text-sm"
+    >
+      Activate Plan
+    </button>
+    <button
+      onclick="closeModal()"
+      class="w-full py-2 px-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-lg font-medium text-sm"
+    >
+      View Only
+    </button>
+  </div>
+</div>

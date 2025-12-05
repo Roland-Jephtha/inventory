@@ -1,71 +1,1527 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POS-Lite - Modern Inventory & Sales Management</title>
 
-{% block title %}Welcome to POS-Lite{% endblock %}
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
 
-{% block content %}
-<div class="landing-container">
-    <div class="hero-section animate-fade-in">
-        <h1 class="hero-title">Manage Your Store <br> <span class="text-primary">Like a Pro</span></h1>
-        <p class="hero-subtitle">The all-in-one POS and Inventory system designed for modern businesses. Track sales,
-            manage stock, and grow your profit.</p>
-        <div class="hero-actions">
-            <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Get Started</a>
-            <a href="#features" class="btn btn-outline btn-lg">Learn More</a>
-        </div>
-    </div>
-    <section id="features" class="features-grid">
-        <div class="feature-card">
-            <i data-feather="trending-up" class="feature-icon"></i>
-            <h3>Real-time Analytics</h3>
-            <p>Track your daily sales and profits instantly.</p>
-        </div>
-        <div class="feature-card">
-            <i data-feather="smartphone" class="feature-icon"></i>
-            <h3>Mobile First</h3>
-            <p>Manage your store from anywhere, on any device.</p>
-        </div>
-        <div class="feature-card">
-            <i data-feather="message-circle" class="feature-icon"></i>
-            <h3>WhatsApp Receipts</h3>
-            <p>Send digital receipts directly to your customers.</p>
-        </div>
-        <div class="feature-card">
-            <i data-feather="package" class="feature-icon"></i>
-            <h3>Inventory Control</h3>
-            <p>Low-stock alerts and auto stock reduction on sales.</p>
-        </div>
-        <div class="feature-card">
-            <i data-feather="bar-chart-2" class="feature-icon"></i>
-            <h3>Comprehensive Reports</h3>
-            <p>Daily, weekly, monthly reports with exports.</p>
-        </div>
-        <div class="feature-card">
-            <i data-feather="wifi-off" class="feature-icon"></i>
-            <h3>Offline Ready</h3>
-            <p>Record sales offline and sync when online.</p>
-        </div>
-    </section>
-    <section id="pricing" class="pricing">
-        <div class="pricing-card card">
-            <h3>Basic</h3>
-            <p class="price">₦3,000/month</p>
-            <a href="{% url 'signup' %}" class="btn btn-primary btn-lg">Start Free Trial</a>
-        </div>
-        <div class="pricing-card card">
-            <h3>Business</h3>
-            <p class="price">₦10,000/month</p>
-            <a href="{% url 'signup' %}" class="btn btn-primary btn-lg">Start Free Trial</a>
-        </div>
-    </section>
-    <section class="how-it-works card">
-        <h3>How it works</h3>
-        <div class="steps">
-            <div class="step">Signup</div>
-            <div class="step">Setup Business</div>
-            <div class="step">Start Selling</div>
-        </div>
-    </section>
-</div>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            colors: {
+              primary: {
+                50: "#eef2ff",
+                100: "#e0e7ff",
+                200: "#c7d2fe",
+                300: "#a5b4fc",
+                400: "#818cf8",
+                500: "#6366f1",
+                600: "#4f46e5",
+                700: "#4338ca",
+                800: "#3730a3",
+                900: "#312e81",
+              },
+            },
+          },
+        },
+      };
+    </script>
 
- 
-{% endblock %}
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+      }
+
+      .animate-slide-in-right {
+        animation: slideInRight 1s ease-out forwards;
+      }
+
+      .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .feature-card {
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-white dark:bg-slate-950 text-slate-900 dark:text-white antialiased"
+  >
+    <!-- Navigation -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-2">
+            <i data-feather="box" class="w-8 h-8 text-primary-600"></i>
+            <span class="text-xl font-bold text-primary-600">POS-Lite</span>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center gap-8">
+            <a
+              onclick="showSection('hero')"
+              class="text-slate-600 dark:text-slate-400 hover:text-primary-600 transition-colors cursor-pointer"
+              >Home</a
+            >
+            <a
+              onclick="showSection('about')"
+              class="text-slate-600 dark:text-slate-400 hover:text-primary-600 transition-colors cursor-pointer"
+              >About</a
+            >
+            <a
+              onclick="showSection('pricing')"
+              class="text-slate-600 dark:text-slate-400 hover:text-primary-600 transition-colors cursor-pointer"
+              >Pricing</a
+            >
+            <a
+              onclick="showSection('faq')"
+              class="text-slate-600 dark:text-slate-400 hover:text-primary-600 transition-colors cursor-pointer"
+              >FAQ</a
+            >
+          </div>
+
+          <div class="flex items-center gap-4">
+            <a
+              href="{% url 'login' %}"
+              class="text-slate-600 dark:text-slate-400 hover:text-primary-600 transition-colors font-medium hidden sm:block"
+              >Sign In</a
+            >
+            <a
+              href="{% url 'signup' %}"
+              class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-full font-medium transition-colors shadow-lg shadow-primary-600/30"
+              >Get Started</a
+            >
+
+            <!-- Mobile Menu Button -->
+            <button
+              onclick="toggleMobileMenu()"
+              class="md:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            >
+              <i data-feather="menu" class="w-6 h-6"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950"
+      >
+        <div class="px-4 py-4 space-y-3">
+          <a
+            onclick="showSection('hero'); toggleMobileMenu();"
+            class="block px-4 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            >Home</a
+          >
+          <a
+            onclick="showSection('pricing'); toggleMobileMenu();"
+            class="block px-4 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            >Pricing</a
+          >
+          <a
+            onclick="showSection('faq'); toggleMobileMenu();"
+            class="block px-4 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            >FAQ</a
+          >
+          <a
+            onclick="showSection('about'); toggleMobileMenu();"
+            class="block px-4 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            >About</a
+          >
+          <a
+            href="{% url 'login' %}"
+            class="block px-4 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors sm:hidden"
+            >Sign In</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      id="hero"
+      class="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+    >
+      <!-- Background Gradient -->
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-purple-50 dark:from-slate-900 dark:via-slate-950 dark:to-purple-950/20"
+      ></div>
+
+      <!-- Animated Background Elements -->
+      <div
+        class="absolute top-20 left-10 w-72 h-72 bg-primary-200/30 dark:bg-primary-900/20 rounded-full blur-3xl animate-float"
+      ></div>
+      <div
+        class="absolute bottom-20 right-10 w-96 h-96 bg-purple-200/30 dark:bg-purple-900/20 rounded-full blur-3xl animate-float"
+        style="animation-delay: 2s"
+      ></div>
+
+      <div class="max-w-7xl mx-auto relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <!-- Left Content -->
+          <div class="animate-fade-in-up">
+            <h1
+              class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+            >
+              Manage Your
+              <span
+                class="bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent"
+                >Inventory</span
+              >
+              with Ease
+            </h1>
+            <p
+              class="text-xl text-slate-600 dark:text-slate-400 mb-8 leading-relaxed"
+            >
+              The modern point-of-sale and inventory management system designed
+              for small businesses. Track sales, manage stock, and grow your
+              business effortlessly.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a
+                href="{% url 'signup' %}"
+                class="px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-full font-bold text-lg shadow-2xl shadow-primary-600/40 transition-all hover:scale-105 flex items-center justify-center gap-2"
+              >
+                Start Free Trial
+                <i data-feather="arrow-right" class="w-5 h-5"></i>
+              </a>
+              <a
+                href="#features"
+                class="px-8 py-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-full font-bold text-lg transition-all hover:scale-105 flex items-center justify-center gap-2"
+              >
+                Learn More
+                <i data-feather="play-circle" class="w-5 h-5"></i>
+              </a>
+            </div>
+
+            <!-- Stats -->
+            <div
+              class="grid grid-cols-3 gap-8 mt-12 pt-12 border-t border-slate-200 dark:border-slate-800"
+            >
+              <div>
+                <div class="text-3xl font-bold text-primary-600">500+</div>
+                <div class="text-sm text-slate-600 dark:text-slate-400">
+                  Active Users
+                </div>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-primary-600">50K+</div>
+                <div class="text-sm text-slate-600 dark:text-slate-400">
+                  Transactions
+                </div>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-primary-600">99.9%</div>
+                <div class="text-sm text-slate-600 dark:text-slate-400">
+                  Uptime
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Content - Phone Mockup -->
+          <div class="relative animate-slide-in-right">
+            <div class="relative">
+              <!-- Phone Frame -->
+              <div
+                class="relative mx-auto w-[300px] h-[600px] bg-slate-900 rounded-[3rem] p-3 shadow-2xl"
+              >
+                <!-- Notch -->
+                <div
+                  class="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-slate-900 rounded-b-3xl z-10"
+                ></div>
+
+                <!-- Screen -->
+                <div
+                  class="relative w-full h-full bg-white rounded-[2.5rem] overflow-hidden"
+                >
+                  <!-- App Screenshot -->
+                  <img
+                    src="{% static 'images/phone_mockup_inventory.webp' %}"
+                    alt="POS-Lite App"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              <!-- Floating Elements -->
+              <div
+                class="absolute -top-10 -right-10 w-24 h-24 bg-primary-100 dark:bg-primary-900/30 rounded-2xl p-4 shadow-xl animate-float"
+              >
+                <i
+                  data-feather="trending-up"
+                  class="w-full h-full text-primary-600"
+                ></i>
+              </div>
+              <div
+                class="absolute -bottom-10 -left-10 w-24 h-24 bg-purple-100 dark:bg-purple-900/30 rounded-2xl p-4 shadow-xl animate-float"
+                style="animation-delay: 1s"
+              >
+                <i
+                  data-feather="shopping-cart"
+                  class="w-full h-full text-purple-600"
+                ></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section
+      id="features"
+      class="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900"
+    >
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold mb-4">Powerful Features</h2>
+          <p class="text-xl text-slate-600 dark:text-slate-400">
+            Everything you need to run your business smoothly
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div
+            class="feature-card bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg"
+          >
+            <div
+              class="w-14 h-14 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center mb-6"
+            >
+              <i
+                data-feather="shopping-cart"
+                class="w-7 h-7 text-primary-600"
+              ></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Point of Sale</h3>
+            <p class="text-slate-600 dark:text-slate-400">
+              Fast and intuitive POS system for quick checkouts and seamless
+              transactions.
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div
+            class="feature-card bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg"
+          >
+            <div
+              class="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center mb-6"
+            >
+              <i data-feather="package" class="w-7 h-7 text-purple-600"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Inventory Management</h3>
+            <p class="text-slate-600 dark:text-slate-400">
+              Track stock levels, manage products, and get low-stock alerts
+              automatically.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div
+            class="feature-card bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg"
+          >
+            <div
+              class="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mb-6"
+            >
+              <i data-feather="bar-chart-2" class="w-7 h-7 text-blue-600"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Sales Analytics</h3>
+            <p class="text-slate-600 dark:text-slate-400">
+              Detailed reports and insights to help you make data-driven
+              decisions.
+            </p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div
+            class="feature-card bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg"
+          >
+            <div
+              class="w-14 h-14 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center mb-6"
+            >
+              <i data-feather="users" class="w-7 h-7 text-green-600"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Customer Management</h3>
+            <p class="text-slate-600 dark:text-slate-400">
+              Build customer relationships with detailed purchase history and
+              insights.
+            </p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div
+            class="feature-card bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg"
+          >
+            <div
+              class="w-14 h-14 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center mb-6"
+            >
+              <i data-feather="smartphone" class="w-7 h-7 text-amber-600"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Mobile Ready</h3>
+            <p class="text-slate-600 dark:text-slate-400">
+              Access your business from anywhere with our responsive mobile
+              design.
+            </p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div
+            class="feature-card bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg"
+          >
+            <div
+              class="w-14 h-14 bg-red-100 dark:bg-red-900/30 rounded-xl flex items-center justify-center mb-6"
+            >
+              <i data-feather="zap" class="w-7 h-7 text-red-600"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Lightning Fast</h3>
+            <p class="text-slate-600 dark:text-slate-400">
+              Optimized performance for quick loading and smooth user
+              experience.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section
+      id="pricing"
+      class="hidden py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-950"
+    >
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold mb-4">
+            Simple, Affordable Pricing
+          </h2>
+          <p class="text-xl text-slate-600 dark:text-slate-400">
+            Start your 7-day free trial today. No credit card required.
+          </p>
+        </div>
+
+        <div class="max-w-lg mx-auto">
+          <!-- Single Plan -->
+          <div
+            class="bg-gradient-to-br from-primary-600 to-purple-600 rounded-3xl p-8 md:p-12 relative shadow-2xl transform hover:scale-105 transition-all"
+          >
+            <!-- Launch Offer Badge -->
+            <div
+              class="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-2 bg-amber-400 text-slate-900 rounded-full text-sm font-bold shadow-lg"
+            >
+              🚀 LAUNCH OFFER
+            </div>
+
+            <div class="text-center mb-8 text-white">
+              <h3 class="text-2xl sm:text-3xl font-bold mb-2 text-white">
+                POS-Lite Pro
+              </h3>
+              <p class="text-white/90 mb-6">
+                Everything you need to run your business
+              </p>
+
+              <!-- Pricing -->
+              <div
+                class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mb-2"
+              >
+                <span class="text-xl sm:text-2xl line-through text-white/70"
+                  >₦7,000</span
+                >
+                <div class="flex items-baseline gap-1">
+                  <span
+                    class="text-4xl sm:text-5xl md:text-6xl font-bold text-white"
+                    >₦3,000</span
+                  >
+                  <span class="text-lg sm:text-xl text-white/90">/month</span>
+                </div>
+              </div>
+              <p class="text-sm text-white/90">Save ₦4,000 per month!</p>
+            </div>
+
+            <!-- Features -->
+            <ul class="space-y-4 mb-8 text-white">
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center shrink-0"
+                >
+                  <i data-feather="check" class="w-4 h-4"></i>
+                </div>
+                <span>Unlimited products & inventory</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center shrink-0"
+                >
+                  <i data-feather="check" class="w-4 h-4"></i>
+                </div>
+                <span>Complete POS system</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center shrink-0"
+                >
+                  <i data-feather="check" class="w-4 h-4"></i>
+                </div>
+                <span>Customer management</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center shrink-0"
+                >
+                  <i data-feather="check" class="w-4 h-4"></i>
+                </div>
+                <span>Sales reports & analytics</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center shrink-0"
+                >
+                  <i data-feather="check" class="w-4 h-4"></i>
+                </div>
+                <span>Mobile-ready PWA</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center shrink-0"
+                >
+                  <i data-feather="check" class="w-4 h-4"></i>
+                </div>
+                <span>Receipt printing</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center shrink-0"
+                >
+                  <i data-feather="check" class="w-4 h-4"></i>
+                </div>
+                <span>Email support</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center shrink-0"
+                >
+                  <i data-feather="check" class="w-4 h-4"></i>
+                </div>
+                <span>Regular updates & improvements</span>
+              </li>
+            </ul>
+
+            <!-- CTA Button -->
+            <a
+              href="{% url 'signup' %}"
+              class="block w-full py-3 sm:py-4 px-4 sm:px-6 bg-white hover:bg-slate-100 text-primary-600 rounded-xl font-bold text-base sm:text-lg text-center transition-all shadow-xl hover:shadow-2xl"
+            >
+              Start 7-Day Free Trial
+            </a>
+
+            <p class="text-center text-xs sm:text-sm text-white/90 mt-4">
+              No credit card required • Cancel anytime
+            </p>
+          </div>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="mt-16 text-center">
+          <p class="text-slate-600 dark:text-slate-400 mb-6">
+            Trusted by small businesses across Nigeria
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-8">
+            <div
+              class="flex items-center gap-2 text-slate-600 dark:text-slate-400"
+            >
+              <i data-feather="shield" class="w-5 h-5 text-green-600"></i>
+              <span class="text-sm">Secure & Reliable</span>
+            </div>
+            <div
+              class="flex items-center gap-2 text-slate-600 dark:text-slate-400"
+            >
+              <i data-feather="zap" class="w-5 h-5 text-amber-600"></i>
+              <span class="text-sm">Lightning Fast</span>
+            </div>
+            <div
+              class="flex items-center gap-2 text-slate-600 dark:text-slate-400"
+            >
+              <i data-feather="smartphone" class="w-5 h-5 text-blue-600"></i>
+              <span class="text-sm">Mobile Ready</span>
+            </div>
+            <div
+              class="flex items-center gap-2 text-slate-600 dark:text-slate-400"
+            >
+              <i data-feather="headphones" class="w-5 h-5 text-purple-600"></i>
+              <span class="text-sm">24/7 Support</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Preview -->
+        <div class="mt-16 max-w-2xl mx-auto">
+          <h3 class="text-2xl font-bold text-center mb-8">
+            Frequently Asked Questions
+          </h3>
+          <div class="space-y-4">
+            <div class="bg-slate-50 dark:bg-slate-900 rounded-xl p-6">
+              <h4 class="font-bold mb-2 flex items-center gap-2">
+                <i
+                  data-feather="help-circle"
+                  class="w-5 h-5 text-primary-600"
+                ></i>
+                What happens after the 7-day trial?
+              </h4>
+              <p class="text-slate-600 dark:text-slate-400 text-sm">
+                After your 7-day free trial, you'll be charged ₦3,000/month. You
+                can cancel anytime before the trial ends with no charges.
+              </p>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-900 rounded-xl p-6">
+              <h4 class="font-bold mb-2 flex items-center gap-2">
+                <i
+                  data-feather="help-circle"
+                  class="w-5 h-5 text-primary-600"
+                ></i>
+                Can I cancel my subscription?
+              </h4>
+              <p class="text-slate-600 dark:text-slate-400 text-sm">
+                Yes! You can cancel your subscription at any time. No long-term
+                contracts or commitments required.
+              </p>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-900 rounded-xl p-6">
+              <h4 class="font-bold mb-2 flex items-center gap-2">
+                <i
+                  data-feather="help-circle"
+                  class="w-5 h-5 text-primary-600"
+                ></i>
+                Do I need a credit card for the free trial?
+              </h4>
+              <p class="text-slate-600 dark:text-slate-400 text-sm">
+                No credit card required! Just sign up with your email and start
+                using POS-Lite immediately.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section
+      id="faq"
+      class="hidden py-20 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900"
+    >
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p class="text-xl text-slate-600 dark:text-slate-400">
+            Everything you need to know about POS-Lite
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <!-- FAQ 1 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(1)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8">What is POS-Lite?</span>
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-1"
+              ></i>
+            </button>
+            <div id="faq-content-1" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                POS-Lite is a modern, cloud-based point-of-sale and inventory
+                management system designed specifically for small and
+                medium-sized businesses in Nigeria. It helps you manage sales,
+                track inventory, handle customers, and generate insightful
+                reports - all from one easy-to-use platform.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(2)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8"
+                >How much does POS-Lite cost?</span
+              >
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-2"
+              ></i>
+            </button>
+            <div id="faq-content-2" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400 mb-3">
+                POS-Lite costs only ₦3,000 per month (reduced from ₦7,000 as a
+                launch offer). This includes:
+              </p>
+              <ul
+                class="list-disc list-inside text-slate-600 dark:text-slate-400 space-y-1 ml-4"
+              >
+                <li>Unlimited products and inventory</li>
+                <li>Complete POS system</li>
+                <li>Customer management</li>
+                <li>Sales reports and analytics</li>
+                <li>Mobile-ready PWA</li>
+                <li>Email support</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(3)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8">Is there a free trial?</span>
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-3"
+              ></i>
+            </button>
+            <div id="faq-content-3" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                Yes! We offer a 7-day free trial with full access to all
+                features. No credit card required to start your trial. You can
+                explore the platform and see if it's the right fit for your
+                business before committing to a subscription.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(4)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8"
+                >Do I need to install any software?</span
+              >
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-4"
+              ></i>
+            </button>
+            <div id="faq-content-4" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                No installation needed! POS-Lite is a web-based application that
+                works directly in your browser. It's also a Progressive Web App
+                (PWA), which means you can add it to your phone's home screen
+                and use it like a native app - even with limited internet
+                connectivity.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(5)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8"
+                >Can I use POS-Lite on my phone or tablet?</span
+              >
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-5"
+              ></i>
+            </button>
+            <div id="faq-content-5" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                Absolutely! POS-Lite is fully responsive and works perfectly on
+                smartphones, tablets, and desktop computers. The interface
+                automatically adapts to your screen size for the best experience
+                on any device.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 6 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(6)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8"
+                >What happens to my data if I cancel?</span
+              >
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-6"
+              ></i>
+            </button>
+            <div id="faq-content-6" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                Your data belongs to you. If you cancel your subscription,
+                you'll have 30 days to export all your data (products, sales,
+                customers, reports) before your account is closed. We can also
+                provide a complete data export upon request.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 7 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(7)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8">Can I print receipts?</span>
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-7"
+              ></i>
+            </button>
+            <div id="faq-content-7" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                Yes! POS-Lite supports receipt printing. You can print receipts
+                directly from the browser to any connected printer. The receipts
+                are optimized for thermal printers (58mm and 80mm) commonly used
+                in retail stores.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 8 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(8)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8"
+                >How do I track my inventory?</span
+              >
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-8"
+              ></i>
+            </button>
+            <div id="faq-content-8" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                POS-Lite automatically tracks your inventory in real-time. When
+                you make a sale, the stock quantity is automatically reduced.
+                You can set low-stock alerts to get notified when products are
+                running low, view stock levels at a glance, and generate
+                inventory reports.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 9 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(9)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8"
+                >Can multiple people use the same account?</span
+              >
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-9"
+              ></i>
+            </button>
+            <div id="faq-content-9" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                Currently, POS-Lite is designed for single-user access per
+                subscription. However, we're working on multi-user support with
+                different permission levels (admin, cashier, manager) which will
+                be available in a future update.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 10 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(10)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8"
+                >What payment methods do you accept?</span
+              >
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-10"
+              ></i>
+            </button>
+            <div id="faq-content-10" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                We accept payments via bank transfer, debit cards, and mobile
+                money. Payment details will be provided after your free trial
+                ends. All payments are processed securely.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 11 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(11)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8">Is my data secure?</span>
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-11"
+              ></i>
+            </button>
+            <div id="faq-content-11" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                Yes! We take security very seriously. All data is encrypted in
+                transit and at rest. We use industry-standard security
+                practices, regular backups, and secure servers to protect your
+                business information. Your data is stored safely and is never
+                shared with third parties.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 12 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(12)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8"
+                >Do you offer customer support?</span
+              >
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-12"
+              ></i>
+            </button>
+            <div id="faq-content-12" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                Yes! We provide email support for all subscribers. Our support
+                team typically responds within 24 hours on business days. We're
+                also building a comprehensive help center with tutorials and
+                guides to help you get the most out of POS-Lite.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 13 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(13)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8"
+                >Can I import my existing product data?</span
+              >
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-13"
+              ></i>
+            </button>
+            <div id="faq-content-13" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400">
+                Yes! You can bulk import products using a CSV file. We provide a
+                template that you can fill out with your product information
+                (name, price, quantity, category, etc.) and upload it to
+                POS-Lite. This makes it easy to migrate from another system or
+                add many products at once.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 14 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(14)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8"
+                >What kind of reports can I generate?</span
+              >
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-14"
+              ></i>
+            </button>
+            <div id="faq-content-14" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400 mb-3">
+                POS-Lite provides comprehensive reporting including:
+              </p>
+              <ul
+                class="list-disc list-inside text-slate-600 dark:text-slate-400 space-y-1 ml-4"
+              >
+                <li>Daily, weekly, and monthly sales reports</li>
+                <li>Top-selling products</li>
+                <li>Customer purchase history</li>
+                <li>Inventory levels and stock movements</li>
+                <li>Revenue trends and analytics</li>
+                <li>All reports can be exported to CSV or PDF</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- FAQ 15 -->
+          <div
+            class="bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700"
+          >
+            <button
+              onclick="toggleFAQ(15)"
+              class="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors"
+            >
+              <span class="font-bold text-lg pr-8">How do I get started?</span>
+              <i
+                data-feather="chevron-down"
+                class="w-5 h-5 text-primary-600 transition-transform"
+                id="faq-icon-15"
+              ></i>
+            </button>
+            <div id="faq-content-15" class="hidden px-6 pb-5">
+              <p class="text-slate-600 dark:text-slate-400 mb-3">
+                Getting started is easy:
+              </p>
+              <ol
+                class="list-decimal list-inside text-slate-600 dark:text-slate-400 space-y-2 ml-4"
+              >
+                <li>Click "Get Started" or "Start 7-Day Free Trial"</li>
+                <li>Create your account with your email and password</li>
+                <li>Set up your business information</li>
+                <li>Add your products</li>
+                <li>Start making sales!</li>
+              </ol>
+              <p class="text-slate-600 dark:text-slate-400 mt-3">
+                The whole process takes less than 10 minutes, and you'll be
+                ready to process your first sale.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Still have questions? -->
+        <div class="mt-16 text-center">
+          <div
+            class="bg-gradient-to-r from-primary-600 to-purple-600 rounded-2xl p-8 md:p-12"
+          >
+            <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+              Still have questions?
+            </h3>
+            <p class="text-primary-100 mb-6">
+              We're here to help! Reach out to our support team.
+            </p>
+            <a
+              href="mailto:support@pos-lite.com"
+              class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 rounded-full font-bold text-lg hover:bg-slate-100 transition-colors shadow-xl"
+            >
+              <i data-feather="mail" class="w-5 h-5"></i>
+              Contact Support
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section
+      id="about"
+      class="hidden py-20 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-900"
+    >
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold mb-4">About POS-Lite</h2>
+          <p class="text-xl text-slate-600 dark:text-slate-400">
+            Built for modern businesses
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+          <div>
+            <h3 class="text-3xl font-bold mb-6">Our Mission</h3>
+            <p class="text-lg text-slate-600 dark:text-slate-400 mb-4">
+              POS-Lite was created to empower small and medium-sized businesses
+              with enterprise-level inventory and sales management tools,
+              without the enterprise price tag or complexity.
+            </p>
+            <p class="text-lg text-slate-600 dark:text-slate-400 mb-4">
+              We believe that every business, regardless of size, deserves
+              access to powerful, intuitive software that helps them grow and
+              succeed.
+            </p>
+            <p class="text-lg text-slate-600 dark:text-slate-400">
+              Our platform combines the simplicity of modern design with the
+              power of advanced analytics, giving you everything you need to run
+              your business efficiently.
+            </p>
+          </div>
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-xl">
+            <h4 class="text-2xl font-bold mb-6">What Makes Us Different</h4>
+            <div class="space-y-6">
+              <div class="flex gap-4">
+                <div
+                  class="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center shrink-0"
+                >
+                  <i data-feather="zap" class="w-6 h-6 text-primary-600"></i>
+                </div>
+                <div>
+                  <h5 class="font-bold mb-1">Lightning Fast</h5>
+                  <p class="text-slate-600 dark:text-slate-400 text-sm">
+                    Optimized for speed with instant page loads and real-time
+                    updates
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div
+                  class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center shrink-0"
+                >
+                  <i
+                    data-feather="smartphone"
+                    class="w-6 h-6 text-purple-600"
+                  ></i>
+                </div>
+                <div>
+                  <h5 class="font-bold mb-1">Mobile First</h5>
+                  <p class="text-slate-600 dark:text-slate-400 text-sm">
+                    Designed as a Progressive Web App for seamless mobile
+                    experience
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div
+                  class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center shrink-0"
+                >
+                  <i data-feather="shield" class="w-6 h-6 text-blue-600"></i>
+                </div>
+                <div>
+                  <h5 class="font-bold mb-1">Secure & Reliable</h5>
+                  <p class="text-slate-600 dark:text-slate-400 text-sm">
+                    Bank-level encryption and 99.9% uptime guarantee
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div
+                  class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center shrink-0"
+                >
+                  <i data-feather="heart" class="w-6 h-6 text-green-600"></i>
+                </div>
+                <div>
+                  <h5 class="font-bold mb-1">Customer Focused</h5>
+                  <p class="text-slate-600 dark:text-slate-400 text-sm">
+                    Built with feedback from real business owners like you
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Features Breakdown -->
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-8">
+            <div
+              class="w-14 h-14 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center mb-6"
+            >
+              <i
+                data-feather="shopping-cart"
+                class="w-7 h-7 text-primary-600"
+              ></i>
+            </div>
+            <h4 class="text-xl font-bold mb-3">Complete POS System</h4>
+            <p class="text-slate-600 dark:text-slate-400 mb-4">
+              Our point-of-sale system is designed for speed and efficiency.
+              Process transactions in seconds with an intuitive interface that
+              requires minimal training.
+            </p>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Quick product search and barcode scanning
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Multiple payment methods (cash, card, mobile)
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Automatic receipt generation and printing
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Customer tracking and loyalty programs
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-8">
+            <div
+              class="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center mb-6"
+            >
+              <i data-feather="package" class="w-7 h-7 text-purple-600"></i>
+            </div>
+            <h4 class="text-xl font-bold mb-3">Smart Inventory Management</h4>
+            <p class="text-slate-600 dark:text-slate-400 mb-4">
+              Never run out of stock or overstock again. Our intelligent
+              inventory system helps you maintain optimal stock levels
+              automatically.
+            </p>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Real-time stock level tracking
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Low stock alerts and reorder notifications
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Product categories and variants
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Bulk import/export capabilities
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-8">
+            <div
+              class="w-14 h-14 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mb-6"
+            >
+              <i data-feather="bar-chart-2" class="w-7 h-7 text-blue-600"></i>
+            </div>
+            <h4 class="text-xl font-bold mb-3">Powerful Analytics</h4>
+            <p class="text-slate-600 dark:text-slate-400 mb-4">
+              Make data-driven decisions with comprehensive reports and
+              real-time insights into your business performance.
+            </p>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Daily, weekly, and monthly sales reports
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Top-selling products and trends
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Customer purchase history
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Export reports to CSV/PDF
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-8">
+            <div
+              class="w-14 h-14 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center mb-6"
+            >
+              <i data-feather="users" class="w-7 h-7 text-green-600"></i>
+            </div>
+            <h4 class="text-xl font-bold mb-3">
+              Customer Relationship Management
+            </h4>
+            <p class="text-slate-600 dark:text-slate-400 mb-4">
+              Build lasting relationships with your customers through detailed
+              profiles and purchase tracking.
+            </p>
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Customer database with contact info
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Purchase history and spending patterns
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Customer search and filtering
+              </li>
+              <li class="flex items-center gap-2">
+                <i
+                  data-feather="check-circle"
+                  class="w-4 h-4 text-green-600"
+                ></i>
+                Loyalty program integration
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section
+      class="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary-600 to-purple-600"
+    >
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">
+          Ready to Get Started?
+        </h2>
+        <p class="text-xl text-primary-100 mb-8">
+          Join hundreds of businesses already using POS-Lite
+        </p>
+        <a
+          href="{% url 'signup' %}"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 rounded-full font-bold text-lg shadow-2xl hover:scale-105 transition-all"
+        >
+          Start Your Free Trial
+          <i data-feather="arrow-right" class="w-5 h-5"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white">
+      <div class="max-w-7xl mx-auto text-center">
+        <div class="flex items-center justify-center gap-2 mb-4">
+          <i data-feather="box" class="w-8 h-8 text-primary-400"></i>
+          <span class="text-2xl font-bold">POS-Lite</span>
+        </div>
+        <p class="text-slate-400 mb-6">
+          Modern inventory and sales management for small businesses
+        </p>
+        <div class="flex items-center justify-center gap-6 text-slate-400">
+          <a href="#" class="hover:text-white transition-colors">Privacy</a>
+          <a href="#" class="hover:text-white transition-colors">Terms</a>
+          <a href="#" class="hover:text-white transition-colors">Contact</a>
+        </div>
+        <p class="text-slate-500 mt-8">
+          &copy; 2024 POS-Lite. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      feather.replace();
+
+      // Mobile menu toggle
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.toggle("hidden");
+        feather.replace();
+      }
+
+      // FAQ accordion toggle
+      function toggleFAQ(id) {
+        const content = document.getElementById(`faq-content-${id}`);
+        const icon = document.getElementById(`faq-icon-${id}`);
+
+        content.classList.toggle("hidden");
+        icon.style.transform = content.classList.contains("hidden")
+          ? "rotate(0deg)"
+          : "rotate(180deg)";
+
+        // Re-render feather icons
+        setTimeout(() => feather.replace(), 50);
+      }
+
+      // Section toggle functionality
+      function showSection(sectionName) {
+        // Hide all sections except features (features stays on home)
+        const sections = ["hero", "pricing", "faq", "about"];
+        sections.forEach((section) => {
+          const el = document.getElementById(section);
+          if (el) {
+            el.classList.add("hidden");
+          }
+        });
+
+        // Show the requested section
+        const targetSection = document.getElementById(sectionName);
+        if (targetSection) {
+          targetSection.classList.remove("hidden");
+
+          // If showing hero, also show features
+          if (sectionName === "hero") {
+            const featuresSection = document.getElementById("features");
+            if (featuresSection) {
+              featuresSection.classList.remove("hidden");
+            }
+          } else {
+            // Hide features when showing other sections
+            const featuresSection = document.getElementById("features");
+            if (featuresSection) {
+              featuresSection.classList.add("hidden");
+            }
+          }
+
+          // Scroll to top smoothly
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          // Re-render feather icons
+          setTimeout(() => feather.replace(), 100);
+        }
+      }
+
+      // Show hero section by default on load
+      window.addEventListener("DOMContentLoaded", () => {
+        showSection("hero");
+      });
+    </script>
+  </body>
+</html>

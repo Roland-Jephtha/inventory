@@ -99,6 +99,42 @@
       .dark .glass {
         background: rgba(15, 23, 42, 0.7);
       }
+
+      /* Button Press Animation */
+      button,
+      a[role="button"],
+      input[type="submit"],
+      input[type="button"],
+      .btn {
+        transition: all 0.15s ease;
+        position: relative;
+      }
+
+      button:active,
+      a[role="button"]:active,
+      input[type="submit"]:active,
+      input[type="button"]:active,
+      .btn:active {
+        transform: scale(0.95);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Hover effect for buttons */
+      button:hover:not(:disabled),
+      a[role="button"]:hover,
+      input[type="submit"]:hover:not(:disabled),
+      input[type="button"]:hover:not(:disabled),
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      /* Disabled button state */
+      button:disabled,
+      input[type="submit"]:disabled,
+      input[type="button"]:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
     </style>
     {% block extra_css %}{% endblock %}
   </head>
@@ -120,8 +156,65 @@
         // Re-initialize Feather icons after HTMX swap
         document.body.addEventListener("htmx:afterSwap", function (event) {
           feather.replace();
+          attachButtonSounds(); // Re-attach sounds after HTMX swap
         });
+
+        // Initialize button sounds
+        attachButtonSounds();
       });
+
+      // Button Click Sound System
+      function attachButtonSounds() {
+        // Create audio context for click sounds
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContext) {
+          console.log("Web Audio API not supported");
+          return;
+        }
+
+        const audioContext = new AudioContext();
+
+        // Function to play click sound
+        function playClickSound() {
+          // Resume audio context if suspended (required for user interaction)
+          if (audioContext.state === "suspended") {
+            audioContext.resume();
+          }
+
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+
+          // Click sound parameters
+          oscillator.frequency.value = 800; // Frequency in Hz
+          oscillator.type = "sine";
+
+          // Volume envelope
+          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(
+            0.01,
+            audioContext.currentTime + 0.1
+          );
+
+          oscillator.start(audioContext.currentTime);
+          oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        // Attach click sound to all buttons
+        const buttons = document.querySelectorAll(
+          'button, input[type="submit"], input[type="button"], a[role="button"], .btn'
+        );
+
+        buttons.forEach((button) => {
+          // Remove existing listener if any
+          button.removeEventListener("click", playClickSound);
+          // Add new listener
+          button.addEventListener("click", playClickSound);
+        });
+      }
     </script>
     {% block extra_js %}{% endblock %}
   </body>

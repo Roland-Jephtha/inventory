@@ -1,7 +1,12 @@
 {% extends 'base.html' %} {% block layout %}
 <div
-  class="min-h-screen flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-950"
+  class="min-h-screen flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-950 relative"
 >
+  <!-- Back to Home Link (Top Left) -->
+  <div class="absolute top-8 left-4 md:top-12 md:left-8 z-10">
+    {% block back_link %}{% endblock %}
+  </div>
+
   <div class="w-full max-w-md">
     <div class="text-center mb-8">
       <div

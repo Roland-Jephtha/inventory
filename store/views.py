@@ -6,6 +6,7 @@ from django.db.models import Q, F, Sum
 from django.utils import timezone
 from .models import Product, Category, SaleItem, Sale, Customer, StoreSettings
 from .forms import ProductForm, CategoryForm, SaleForm, CustomerForm
+from users.decorators import owner_required
 
 @login_required
 def dashboard(request):
@@ -73,6 +74,7 @@ def pos(request):
     return render(request, 'store/pos.html', context)
 
 @login_required
+@owner_required
 def product_list(request):
     query = request.GET.get('q')
     products = Product.objects.all().select_related('category').order_by('-created_at')
@@ -86,6 +88,7 @@ def product_list(request):
     return render(request, 'store/product_list.html', context)
 
 @login_required
+@owner_required
 def product_create(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
@@ -98,6 +101,7 @@ def product_create(request):
     return render(request, 'store/product_form.html', {'form': form, 'title': 'Add Product'})
 
 @login_required
+@owner_required
 def product_update(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
@@ -111,6 +115,7 @@ def product_update(request, pk):
     return render(request, 'store/product_form.html', {'form': form, 'title': 'Edit Product'})
 
 @login_required
+@owner_required
 def product_delete(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
@@ -184,6 +189,7 @@ def sales_report(request):
     return render(request, 'store/sales_report.html', context)
 
 @login_required
+@owner_required
 def settings_view(request):
     # Get or create store settings
     store, created = StoreSettings.objects.get_or_create(pk=1)

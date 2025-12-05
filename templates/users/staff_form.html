@@ -1,0 +1,228 @@
+{% extends 'layouts/app.html' %} {% block title %}{% if staff %}Edit Staff{%
+else %}Add Staff{% endif %} - POS-Lite{% endblock %} {% block content %}
+<div class="p-4 sm:p-6 lg:p-8">
+  <div class="max-w-2xl mx-auto">
+    <!-- Header -->
+    <div class="mb-6">
+      <a
+        href="{% url 'staff_list' %}"
+        class="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 mb-4 transition-colors"
+      >
+        <i data-feather="arrow-left" class="w-4 h-4"></i>
+        <span>Back to Staff List</span>
+      </a>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
+        {% if staff %}Edit Staff Member{% else %}Add New Staff Member{% endif %}
+      </h1>
+      <p class="text-slate-600 dark:text-slate-400 mt-1">
+        {% if staff %}Update staff member information{% else %}Create a new
+        staff account{% endif %}
+      </p>
+    </div>
+
+    <!-- Form -->
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden"
+    >
+      <div class="p-6 md:p-8">
+        <form method="post" class="space-y-6">
+          {% csrf_token %}
+
+          <!-- Full Name -->
+          <div>
+            <label
+              for="full_name"
+              class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+            >
+              Full Name <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i data-feather="user" class="w-5 h-5 text-slate-400"></i>
+              </div>
+              <input
+                type="text"
+                id="full_name"
+                name="full_name"
+                value="{% if staff %}{{ staff.first_name }} {{ staff.last_name }}{% endif %}"
+                required
+                class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                placeholder="John Doe"
+              />
+            </div>
+          </div>
+
+          <!-- Username -->
+          <div>
+            <label
+              for="username"
+              class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+            >
+              Username <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i data-feather="at-sign" class="w-5 h-5 text-slate-400"></i>
+              </div>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value="{% if staff %}{{ staff.username }}{% endif %}"
+                required
+                class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                placeholder="johndoe"
+              />
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label
+              for="email"
+              class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+            >
+              Email <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i data-feather="mail" class="w-5 h-5 text-slate-400"></i>
+              </div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value="{% if staff %}{{ staff.email }}{% endif %}"
+                required
+                class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                placeholder="john@example.com"
+              />
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div>
+            <label
+              for="phone"
+              class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+            >
+              Phone Number
+            </label>
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i data-feather="phone" class="w-5 h-5 text-slate-400"></i>
+              </div>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value="{% if staff %}{{ staff.phone }}{% endif %}"
+                class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                placeholder="+234 800 000 0000"
+              />
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label
+              for="password"
+              class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+            >
+              Password {% if staff %}<span class="text-slate-500"
+                >(leave blank to keep current)</span
+              >{% else %}<span class="text-red-500">*</span>{% endif %}
+            </label>
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i data-feather="lock" class="w-5 h-5 text-slate-400"></i>
+              </div>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                {%
+                if
+                not
+                staff
+                %}required{%
+                endif
+                %}
+                class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                placeholder="••••••••"
+              />
+            </div>
+            {% if not staff %}
+            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+              Password must be at least 8 characters long
+            </p>
+            {% endif %}
+          </div>
+
+          <!-- Info Box -->
+          <div
+            class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/50 rounded-xl p-4"
+          >
+            <div class="flex gap-3">
+              <i
+                data-feather="info"
+                class="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5"
+              ></i>
+              <div class="text-sm text-blue-800 dark:text-blue-300">
+                <p class="font-medium mb-1">Staff Access Permissions</p>
+                <p>Staff members will have access to:</p>
+                <ul class="list-disc list-inside mt-2 space-y-1">
+                  <li>Dashboard</li>
+                  <li>Point of Sale (POS)</li>
+                  <li>Sales Reports</li>
+                  <li>Customer Management</li>
+                </ul>
+                <p class="mt-2">
+                  They will NOT have access to product management, settings, or
+                  staff management.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-col sm:flex-row gap-3 pt-4">
+            <button
+              type="submit"
+              class="flex-1 sm:flex-none px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-medium transition-colors shadow-lg shadow-primary-600/30"
+            >
+              {% if staff %}
+              <span class="flex items-center justify-center gap-2">
+                <i data-feather="save" class="w-5 h-5"></i>
+                Update Staff Member
+              </span>
+              {% else %}
+              <span class="flex items-center justify-center gap-2">
+                <i data-feather="user-plus" class="w-5 h-5"></i>
+                Create Staff Member
+              </span>
+              {% endif %}
+            </button>
+            <a
+              href="{% url 'staff_list' %}"
+              class="flex-1 sm:flex-none px-6 py-3 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-xl font-medium text-center transition-colors"
+            >
+              Cancel
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

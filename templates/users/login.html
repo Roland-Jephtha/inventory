@@ -1,7 +1,16 @@
-{% extends 'layouts/auth.html' %} {% block title %}Login - POS-Lite{% endblock
-%}
-
-{% block content %}
+{% extends 'layouts/auth.html' %} {% block title %}Login - POS-Lite
+{% endblock%} {% block back_link %}
+<a
+  href="/"
+  class="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 transition-colors group"
+>
+  <i
+    data-feather="arrow-left"
+    class="w-4 h-4 group-hover:-translate-x-1 transition-transform"
+  ></i>
+  <span class="text-sm font-medium">Back to Home</span>
+</a>
+{% endblock %} {% block content %}
 <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">
   Welcome back
 </h2>
@@ -84,9 +93,7 @@
     Sign In
   </button>
 </form>
-{% endblock %}
-
-{% block footer_links %}
+{% endblock %} {% block footer_links %}
 <p class="text-sm text-slate-600 dark:text-slate-400">
   Don't have an account?
   <a
