@@ -18,7 +18,7 @@
   Sign in to your account to continue
 </p>
 
-<form method="post" class="space-y-4">
+<form method="post" class="space-y-4" data-turbo="false">
   {% csrf_token %} {% if form.errors %}
   <div
     class="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 rounded-xl"
