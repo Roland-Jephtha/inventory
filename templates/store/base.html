@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}POS-Lite{% endblock %}</title>
+    
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Feather Icons -->
@@ -16,6 +17,7 @@
 </head>
 
 <body>
+    
     <div class="app-container">
         {% if user.is_authenticated %}
         <nav class="sidebar">
@@ -34,7 +36,7 @@
             {% endwith %}
             <div class="user-profile">
                 <p>{{ user.username }}</p>
-                <a href="{% url 'logout' %}" class="text-danger">Logout</a>
+                <a href="{% url 'logout' %}" class="text-danger" data-turbo="false">Logout</a>
             </div>
         </nav>
         {% endif %}
@@ -132,6 +134,7 @@
             });
         }
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
+        
         const statusDot = document.getElementById('online-status');
         function updateOnline() {
             if (!statusDot) return;

@@ -7,6 +7,8 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>{% block title %}POS-Lite{% endblock %}</title>
+    <script src="https://unpkg.com/@hotwired/turbo@8.0.0/dist/turbo.es2017-umd.js"></script>
+    
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -141,6 +143,7 @@
   <body
     class="h-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 antialiased transition-colors duration-200"
   >
+    <div id="preloader" class="preloader-overlay"><div class="preloader-spinner"></div></div>
     {% block layout %}{% endblock %}
 
     <script>
@@ -162,6 +165,12 @@
         // Initialize button sounds
         attachButtonSounds();
       });
+
+      document.addEventListener('turbo:visit', function(){ var p=document.getElementById('preloader'); if(p) p.classList.add('show'); });
+      document.addEventListener('turbo:load', function(){ var p=document.getElementById('preloader'); if(p) p.classList.remove('show'); feather.replace(); attachButtonSounds(); });
+      document.addEventListener('turbo:render', function(){ var p=document.getElementById('preloader'); if(p) p.classList.remove('show'); });
+
+      
 
       // Button Click Sound System
       function attachButtonSounds() {

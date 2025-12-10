@@ -91,33 +91,33 @@ WSGI_APPLICATION = "inventory_system.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
-
-
-
-
-
-
-
-
-
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'defaultdb',
-        'USER': 'avnadmin',
-        'PASSWORD': 'AVNS_w9kNi9dSNghP-sgQHC_',
-        'HOST': 'pg-243e00f3-rolandjephtha730-053f.c.aivencloud.com',  # Replace this with the correct host
-        'PORT': '10348',  # Replace with your database port if needed
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'defaultdb',
+#         'USER': 'avnadmin',
+#         'PASSWORD': 'AVNS_w9kNi9dSNghP-sgQHC_',
+#         'HOST': 'pg-243e00f3-rolandjephtha730-053f.c.aivencloud.com',  # Replace this with the correct host
+#         'PORT': '10348',  # Replace with your database port if needed
+#     }
+# }
 
 
 
