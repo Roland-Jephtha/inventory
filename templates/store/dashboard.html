@@ -74,8 +74,11 @@
         <option>Last Week</option>
       </select>
     </div>
-    <div class="h-64 w-full">
-      <canvas id="revenueChart" data-type="bar" data-labels='["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]' data-series='{{ weekly_data|default:"[12000,19000,3000,5000,2000,3000,15000]"|safe }}'></canvas>
+    <div class="h-64 w-full relative">
+      <div class="chart-loader" id="dashboard-loader">
+        <div class="loader-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      </div>
+      <canvas id="revenueChart" style="opacity:0" data-type="bar" data-labels='["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]' data-series='{{ weekly_data|default:"[12000,19000,3000,5000,2000,3000,15000]"|safe }}'></canvas>
     </div>
   </div>
 

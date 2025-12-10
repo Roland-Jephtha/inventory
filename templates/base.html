@@ -181,6 +181,7 @@
       function initCharts(){
         var canvas=document.getElementById('revenueChart');
         if(!canvas) return;
+        var loader = document.getElementById('dashboard-loader') || (canvas.parentElement ? canvas.parentElement.querySelector('.chart-loader') : null);
         var labels = [];
         var series = [];
         try { labels = JSON.parse(canvas.dataset.labels || '[]'); } catch(e){}
@@ -193,6 +194,8 @@
           data: { labels: labels, datasets: [{ label: 'Revenue (₦)', data: series, backgroundColor: color, borderColor: color, borderRadius: 6, tension: 0.3 }] },
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
         });
+        canvas.style.opacity = '1';
+        if(loader) loader.style.display = 'none';
       }
 
       document.addEventListener('turbo:load', function(){ ensureChartJs(initCharts); });
