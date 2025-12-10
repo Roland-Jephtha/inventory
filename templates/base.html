@@ -170,7 +170,33 @@
       document.addEventListener('turbo:load', function(){ var p=document.getElementById('preloader'); if(p) p.classList.remove('show'); feather.replace(); attachButtonSounds(); });
       document.addEventListener('turbo:render', function(){ var p=document.getElementById('preloader'); if(p) p.classList.remove('show'); });
 
-      
+      function ensureChartJs(callback){
+        if(window.Chart){ callback(); return; }
+        var s=document.createElement('script');
+        s.src='https://cdn.jsdelivr.net/npm/chart.js';
+        s.onload=callback;
+        document.head.appendChild(s);
+      }
+
+      function initCharts(){
+        var canvas=document.getElementById('revenueChart');
+        if(!canvas) return;
+        var labels = [];
+        var series = [];
+        try { labels = JSON.parse(canvas.dataset.labels || '[]'); } catch(e){}
+        try { series = JSON.parse(canvas.dataset.series || '[]'); } catch(e){}
+        var type = canvas.dataset.type || 'bar';
+        var color = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#4f46e5';
+        if(canvas._chartInstance){ canvas._chartInstance.destroy(); }
+        canvas._chartInstance = new Chart(canvas, {
+          type: type,
+          data: { labels: labels, datasets: [{ label: 'Revenue (₦)', data: series, backgroundColor: color, borderColor: color, borderRadius: 6, tension: 0.3 }] },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+        });
+      }
+
+      document.addEventListener('turbo:load', function(){ ensureChartJs(initCharts); });
+      document.addEventListener('DOMContentLoaded', function(){ ensureChartJs(initCharts); });
 
       // Button Click Sound System
       function attachButtonSounds() {
