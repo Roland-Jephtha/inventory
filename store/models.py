@@ -109,3 +109,16 @@ class StoreSettings(models.Model):
             # Prevent multiple settings objects
             return
         super().save(*args, **kwargs)
+
+class LowStockAlert(models.Model):
+    """Track low stock alerts sent to users to avoid duplicate emails."""
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='stock_alerts')
+    last_alert_sent = models.DateTimeField(auto_now=True)
+    reminder_count = models.IntegerField(default=0)  # Number of reminders sent
+    is_active = models.BooleanField(default=True)  # Alert is still relevant
+    
+    class Meta:
+        unique_together = ('product',)
+    
+    def __str__(self):
+        return f"Low Stock Alert: {self.product.name}"
